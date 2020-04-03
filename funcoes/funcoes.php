@@ -1,4 +1,5 @@
 <?php
+require_once('bancoDeDados.php');
 
 /**
  * Mapea a os dados recebidos retornando um array nomeado.
@@ -13,7 +14,7 @@ function mapeaDadosRequest($dados, $chaves){
 	{
 		if(isset($dados[$valor]) && $dados[$valor] !== '')
 		{
-			$retorno[$valor] = trim($dados[$valor]);
+			$retorno[$valor] = is_array($dados[$valor]) ? $dados[$valor] : trim($dados[$valor]);
 		}
 		else
 		{
@@ -22,4 +23,12 @@ function mapeaDadosRequest($dados, $chaves){
 	}
 
 	return $retorno;
+}
+
+/**
+ * Retorna senha criptografada.
+ * @return hash da senha informada.
+ */
+function criptografaSenha($senha){
+	return password_hash($senha, PASSWORD_DEFAULT);
 }

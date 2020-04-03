@@ -1,13 +1,17 @@
 <?php
 require_once('../funcoes/funcoes.php');
-//require_once('../funcoes/cadastro.php');
-syslog(LOG_ERR, var_export($_REQUEST ,true));
-switch($_REQUEST){
-	case 'POST':{
+require_once('../funcoes/cadastro.php');
+
+switch($_SERVER['REQUEST_METHOD'])
+{
+	case 'POST':
+	{
 		$dadosCadastro = mapeaDadosRequest($_POST, array('nome', 'sobrenome', 'email', 'senha'));
 
-		echo json_decode($dadosCadastro);
+		$resultado = cadastrarUsuario($dadosCadastro);
+
+		echo json_encode($resultado);
+		break;
 	}
 }
 
-REDWIBXX-GDBK9-F67RF-URU5E-E1ZFN
