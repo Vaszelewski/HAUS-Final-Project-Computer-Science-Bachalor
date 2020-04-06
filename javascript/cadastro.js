@@ -9,11 +9,18 @@ function cadatrarUsuario(){
 	if(validaSenha(dadosCadastro['senha'], $('#confirmacao').val()))
 	{
 		$.ajax({
-			url: "../ajax/cadastro.php",
+			url: "../ajax/usuario.php",
 			method: "POST",
 			data: dadosCadastro,
-			sucess: function(data){
-				console.log(data);
+			success: function(data){
+				if(data != '0')
+				{
+					alert('Usuário cadastrado com sucesso!');
+				}
+				else
+				{
+					alert('E-mail já cadastrado.');
+				}
 			}
 		});
 	}

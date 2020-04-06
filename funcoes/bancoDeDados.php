@@ -34,8 +34,29 @@ function bd_atualiza(){
 
 }
 
-function bd_consulta(){
+function bd_consulta($sql){
+	$resultado = array();
+	$conexao = bd_conecta();
 
+	if(!$conexao)
+	{
+		return $resultado;
+	}
+
+	$executaQuery = mysqli_query($conexao, $sql);
+
+	if($executaQuery)
+	{
+		while($linha = mysqli_fetch_assoc($executaQuery)){
+			$resultado[] = $linha;
+		}
+	}
+	else
+	{
+		$resultado = mysqli_error($conexao);
+	}
+
+	return $resultado;
 }
 
 function bd_exclui(){
