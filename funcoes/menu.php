@@ -5,7 +5,7 @@
 		</h1>
 	</div>
 
-	<div class="col-10 col-md-8 d-none d-xl-block" data-aos="fade-down">
+	<div class="col-10 col-md-7 d-none d-xl-block" data-aos="fade-down">
 		<nav class="site-navigation position-relative text-right text-lg-center" role="navigation">
 			<ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
 				<li class="active">
@@ -64,7 +64,20 @@
 		</nav>
 	</div>
 
-	<div class="col-6 col-xl-2 text-right" data-aos="fade-down">
+	<div class="col-3 col-md-3 d-none d-xl-block" data-aos="fade-down">
+		<nav class="site-navigation position-relative text-right text-lg-center" role="navigation">
+			<ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
+				<li class="botaoCadastro">
+					<a href="?pag=cadastro">Cadastrar</a>
+				</li>
+				<li class="botaoEntrar">
+					<a href="?pag=login">Entrar</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+
+	<!-- <div class="col-6 col-xl-2 text-right" data-aos="fade-down">
 		<div class="d-none d-xl-inline-block">
 			<ul class="site-menu js-clone-nav ml-auto list-unstyled d-flex text-right mb-0" data-class="social">
 				<li>
@@ -80,7 +93,7 @@
 					<a href="#" class="pl-3 pr-3"><span class="icon-youtube-play"></span></a>
 				</li>
 			</ul>
-		</div>
+		</div> -->
 
 		<div class="d-inline-block d-xl-none ml-md-0 mr-auto py-3" style="position: relative; top: 3px;">
 			<a href="#" class="site-menu-toggle js-menu-toggle text-black">

@@ -9,7 +9,7 @@ function cadatrarUsuario(){
 	if(validaSenha(dadosCadastro['senha'], $('#confirmacao').val()))
 	{
 		$.ajax({
-			url: "../ajax/usuario.php",
+			url: "ajax/usuario.php",
 			method: "POST",
 			data: dadosCadastro,
 			success: function(data){
@@ -34,8 +34,8 @@ function validaSenha(senha, confiramacao){
 	return senha == confiramacao.trim();
 }
 
-function paginacaoCadastro(){
+$(document).ready(function(){
 	$('#efetuarCadastro').click(function(){
-		cadatrarUsuario()
+		cadatrarUsuario();
 	});
-}
+});

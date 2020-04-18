@@ -1,10 +1,12 @@
 <?php
 require_once('bancoDeDados.php');
 
+session_start();
+
 /**
  * Realiza os requires dos scripts html para nevegação da aplicação
- * @param string $pagina pagina para onde deve ser realizado o require.
- * @return void
+ * @param String $pagina pagina para onde deve ser realizado o require.
+ * @return Void
  */
 function paginacao($pagina){
 	require_once('html/'.$pagina.'.html');
@@ -12,9 +14,9 @@ function paginacao($pagina){
 
 /**
  * Mapea os dados recebidos retornando apenas os dados solicitados que estão setados
- * @param array $dados valores a serem verificados
+ * @param Array $dados valores a serem setados
  * @param array $chaves indices que devem ser retornados se existirem
- * @return array retorna um array nomeado com os valores que foram encontrados nos dados.
+ * @return Array retorna um array nomeado com os valores que foram encontrados nos dados.
  */
 function mapeaDadosRequest($dados, $chaves){
 	$retorno = array();
@@ -36,9 +38,9 @@ function mapeaDadosRequest($dados, $chaves){
 
 /**
  * Função para criptografia da senha de usuário
- * @param string $senha senha a ser criptografada
- * @return hash retorna senha criptografada.
+ * @param String $senha senha a ser criptografada
+ * @return Hash retorna senha criptografada.
  */
-function criptografaSenha($senha){
+function encripta($senha){
 	return password_hash($senha, PASSWORD_DEFAULT);
 }
