@@ -24,6 +24,10 @@
 		<link rel="stylesheet" href="vendors/estilos/swiper.css">
 		<link rel="stylesheet" href="vendors/estilos/aos.css">
 		<link rel="stylesheet" href="vendors/estilos/style.css">
+
+		<script src="vendors/javascript/jquery-3.3.1.min.js"></script>
+		<script src="vendors/javascript/jquery-migrate-3.0.1.min.js"></script>
+		<script src="vendors/javascript/jquery-ui.js"></script>
 	</head>
 
 	<body>
@@ -63,9 +67,6 @@
 			</div>
 		</div>
 
-		<script src="vendors/javascript/jquery-3.3.1.min.js"></script>
-		<script src="vendors/javascript/jquery-migrate-3.0.1.min.js"></script>
-		<script src="vendors/javascript/jquery-ui.js"></script>
 		<script src="vendors/javascript/popper.min.js"></script>
 		<script src="vendors/javascript/bootstrap.min.js"></script>
 		<script src="vendors/javascript/owl.carousel.min.js"></script>
