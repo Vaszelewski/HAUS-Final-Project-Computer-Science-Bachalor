@@ -6,27 +6,21 @@ function cadatrarUsuario(){
 		'senha': $('#senha').val().trim()
 	}
 
-	if(validaSenha(dadosCadastro['senha'], $('#confirmacao').val()))
-	{
+	if(validaSenha(dadosCadastro['senha'], $('#confirmacao').val())){
 		$.ajax({
 			url: "ajax/usuario.php",
 			method: "POST",
 			data: dadosCadastro,
 			success: function(data){
-				if(data != '0')
-				{
-					alert('Usuário cadastrado com sucesso!');
-				}
-				else
-				{
-					alert('E-mail já cadastrado.');
+				if(data != '0'){
+					validacao('sucesso','Usuário cadastrado com sucesso!')
+				}else{
+					validacao('alerta','E-mail já cadastrado.')
 				}
 			}
 		});
-	}
-	else
-	{
-		alert('As senhas não coincidem');
+	}else{
+		validacao('alerta','As senhas não coincidem.')
 	}
 }
 

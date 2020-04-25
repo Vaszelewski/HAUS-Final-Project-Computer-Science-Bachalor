@@ -24,10 +24,13 @@
 		<link rel="stylesheet" href="vendors/estilos/swiper.css">
 		<link rel="stylesheet" href="vendors/estilos/aos.css">
 		<link rel="stylesheet" href="vendors/estilos/style.css">
+		<link rel="stylesheet" href="vendors/estilos/alertify.min.css">
+		<link rel="stylesheet" href="vendors/estilos/default.min.css">
 
 		<script src="vendors/javascript/jquery-3.3.1.min.js"></script>
 		<script src="vendors/javascript/jquery-migrate-3.0.1.min.js"></script>
 		<script src="vendors/javascript/jquery-ui.js"></script>
+		<script src="vendors/javascript/alertify.min.js"></script>
 	</head>
 
 	<body>
@@ -56,6 +59,7 @@
 				?>
 			</div>
 
+
 			<div class="footer py-4">
 				<div class="container-fluid">
 					<p>
@@ -80,11 +84,13 @@
 		<script src="vendors/javascript/lightgallery-all.min.js"></script>
 		<script src="vendors/javascript/jquery.mousewheel.min.js"></script>
 		<script src="vendors/javascript/main.js"></script>
+		<script src="javascript/funcoes.js"></script>
 		
 		<script>
 			$(document).ready(function(){
 				$('#lightgallery').lightGallery();
 			});
 		</script>
+
 	</body>
 </html>
