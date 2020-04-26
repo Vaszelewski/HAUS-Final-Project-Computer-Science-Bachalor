@@ -55,7 +55,7 @@
 					<a href="?pag=services">Services</a>
 				</li>
 				<li>
-					<a href="?pag=about">About</a>
+					<a href="?pag=sobre">Sobre</a>
 				</li>
 				<li>
 					<a href="?pag=contact">Contact</a>

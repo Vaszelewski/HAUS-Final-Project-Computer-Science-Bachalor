@@ -30,6 +30,7 @@
 		<script src="vendors/javascript/jquery-3.3.1.min.js"></script>
 		<script src="vendors/javascript/jquery-migrate-3.0.1.min.js"></script>
 		<script src="vendors/javascript/jquery-ui.js"></script>
+		<script src="vendors/javascript/alertify.min.js"></script>
 	</head>
 
 	<body>
