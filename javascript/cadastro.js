@@ -13,14 +13,14 @@ function cadatrarUsuario(){
 			data: dadosCadastro,
 			success: function(data){
 				if(data != '0'){
-					validacao('sucesso','Usuário cadastrado com sucesso!')
+					validacao('sucesso', 'Usuário cadastrado com sucesso!')
 				}else{
-					validacao('alerta','E-mail já cadastrado.')
+					validacao('alerta', 'E-mail já cadastrado.')
 				}
 			}
 		});
 	}else{
-		validacao('alerta','As senhas não coincidem.')
+		validacao('alerta', 'As senhas não coincidem.')
 	}
 }
 

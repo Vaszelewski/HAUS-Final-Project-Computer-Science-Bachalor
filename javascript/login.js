@@ -10,9 +10,9 @@ function autenticarUsuario(){
 		data: dadosAutenticacao,
 		success: function(data){
 			if(data == 'true'){
-				validacao('sucesso','Login efetuado com sucesso!')
+				validacao('sucesso', 'Login efetuado com sucesso!')
 			}else{
-				validacao('alerta','Credenciais Invalidas.')
+				validacao('alerta', 'Credenciais Invalidas.')
 			}
 		}
 	});
