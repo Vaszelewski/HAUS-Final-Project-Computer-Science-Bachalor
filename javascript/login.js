@@ -11,7 +11,7 @@ function autenticarUsuario(){
 		success: function(data){
 			if(data == 'true')
 			{
-				alert('Logado com sucesso!');
+				window.location.replace(window.location.origin + window.location.pathname);
 			}
 			else
 			{

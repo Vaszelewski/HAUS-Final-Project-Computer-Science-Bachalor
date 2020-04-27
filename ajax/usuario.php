@@ -8,23 +8,50 @@ switch($_SERVER['REQUEST_METHOD'])
 	{
 		$dadosCadastro = mapeaDadosRequest($_POST, array('nome', 'sobrenome', 'email', 'senha'));
 
-		$resultado = cadastrarUsuario($dadosCadastro);
+		$retorno = cadastrarUsuario($dadosCadastro);
 
-		echo json_encode($resultado);
+		echo json_encode($retorno);
 
 		break;
 	}
 
 	case 'GET':
 	{
-		$dadosRequisicao = mapeaDadosRequest($_GET, array('nome', 'sobrenome', 'email', 'senha'));
+		$dadosRequisicao = mapeaDadosRequest($_GET, array('parametros', 'nome', 'sobrenome', 'email', 'senha', 'codUsuario', 'imagemUsuario'));
 
 		if($dadosRequisicao['senha'] != null)
 		{
-			$resultado = autenticaUsuario($dadosRequisicao);
+			$retorno = autenticaUsuario($dadosRequisicao);
+		}
+		else if(isset($dadosRequisicao['imagemUsuario']))
+		{
+			$retorno = retornaImagemUsuario();
+		}
+		else
+		{
+			if(!isset($dadosRequisicao['codUsuario']) && isset($_SESSION['user_info']))
+			{
+				$dadosRequisicao['codUsuario'] = $_SESSION['user_info']['cod_usuario'];
+			}
+
+			$retorno = buscaDadosUsuario($dadosRequisicao);
 		}
 
-		echo json_encode($resultado);
+		echo json_encode($retorno);
+
+		break;
+	}
+
+	case 'PATCH':
+	{
+		parse_str(file_get_contents('php://input'), $_PATCH);
+
+		$dadosRequisicao = mapeaDadosRequest($_PATCH, array('nome', 'sobrenome', 'email'));
+		$dadosRequisicao['imagem'] = isset($_FILES) ?? null;
+
+		$retorno = atualizaDadosUsuario($dadosRequisicao);
+		
+		echo json_encode($retorno);
 
 		break;
 	}

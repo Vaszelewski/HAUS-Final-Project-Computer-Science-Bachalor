@@ -2,12 +2,16 @@ CREATE DATABASE IF NOT EXISTS haus;
 
 CREATE TABLE IF NOT EXISTS
 	haus.usuario(
-		id INT PRIMARY KEY,
+		cod_usuario INT PRIMARY KEY,
 		nome VARCHAR(50),
 		sobrenome VARCHAR(100),
 		email VARCHAR(50),
-		senha TEXT
+		senha TEXT,
+		tipo_mime VARCHAR(50) NULL DEFAULT NULL,
+		imagem MEDIUMBLOB NULL DEFAULT NULL
 	);
+
+DROP USER public_haus;
 
 GRANT SELECT
 ON

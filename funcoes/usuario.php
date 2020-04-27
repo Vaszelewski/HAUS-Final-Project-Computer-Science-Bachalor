@@ -1,11 +1,38 @@
 <?php
 /**
+ * 
+ */
+function buscaDadosUsuario($dadosBusca){
+	$sql = "
+		SELECT
+			".bd_mysqli_real_escape_string($dadosBusca['parametros'])."
+		FROM
+			usuario
+		WHERE
+			1
+			[%1]
+	";
+
+	$codUsuario = isset($dadosBusca['codUsuario']) ? "AND cod_usuario = ".bd_mysqli_real_escape_string($dadosBusca['codUsuario']) : "";
+
+	$sql = str_replace(
+		array('[%1]'),
+		array($codUsuario),
+		$sql
+	);
+
+	$retorno = bd_consulta($sql);
+
+	return $retorno;
+}
+
+/**
  * Reponsável por cadastrar um usuário.
  * @param Array $dadosCadastro informacões do usuário a ser criado
  * @return Int retorna 0 em caso de falha ao cadastrar ou o id do usuário criado.
  */
 function cadastrarUsuario($dadosCadastro){
-	$resultado = 0;
+	$retorno = 0;
 	
 	$sql = "
 		INSERT INTO
@@ -20,10 +47,10 @@ function cadastrarUsuario($dadosCadastro){
 
 	if(!verificaUsuarioExistente($dadosCadastro['email']))
 	{
-		$resultado = bd_insere($sql);
+		$retorno = bd_insere($sql);
 	}
 
-	return $resultado;
+	return $retorno;
 }
 
 /**
@@ -34,7 +61,7 @@ function cadastrarUsuario($dadosCadastro){
 function verificaUsuarioExistente($email){
 	$sql = "
 		SELECT
-			COUNT(id) AS total
+			COUNT(cod_usuario) AS total
 		FROM
 			usuario
 		WHERE
@@ -53,11 +80,11 @@ function verificaUsuarioExistente($email){
  * @return Boolean informa true caso as credenciais sejam válidas, se não false.
  */
 function autenticaUsuario($usuario){
-	$resultado = false;
+	$retorno = false;
 
 	$sql = "
 		SELECT
-			nome, sobrenome, email, senha
+			cod_usuario, nome, sobrenome, email, senha
 		FROM
 			usuario
 		WHERE
@@ -69,9 +96,119 @@ function autenticaUsuario($usuario){
 	if(!empty($dadosUsuario) && password_verify($usuario['senha'], $dadosUsuario[0]['senha']))
 	{
 		$_SESSION['user_info'] = $dadosUsuario[0];
+		$_SESSION['user_info']['imagem'] = retornaImagemUsuario();
 
-		$resultado = true;
+		$retorno = true;
 	}
 
-	return $resultado;
+	return $retorno;
+}
+
+/**
+ * 
+ */
+function atualizaDadosUsuario($novosDadosUsuario){
+	$sql = "
+		UPDATE
+			usuario
+		SET
+			[%1]
+		WHERE
+			cod_usuario = ".$_SESSION['user_info']['cod_usuario'];
+
+	$sqlSet = array();
+
+	$dadosUsuario = buscaDadosUsuario(array("parametros" => 'email', "codUsuario" => $_SESSION['user_info']['cod_usuario']));
+
+	if(isset($novosDadosUsuario['nome']))
+	{
+		$sqlSet[] = "nome = '".bd_mysqli_real_escape_string($novosDadosUsuario['nome'])."'";
+	}
+
+	if(isset($novosDadosUsuario['sobrenome']))
+	{
+		$sqlSet[] = "sobrenome = '".bd_mysqli_real_escape_string($novosDadosUsuario['sobrenome'])."'";
+	}
+
+	if(isset($novosDadosUsuario['email']))
+	{
+		if(!verificaUsuarioExistente($novosDadosUsuario['email']))
+		{
+			$sqlSet[] = "email = '".bd_mysqli_real_escape_string($novosDadosUsuario['email'])."'";
+		}
+	}
+
+	$sql = str_replace(
+		'[%1]',
+		implode(', ', $sqlSet),
+		$sql
+	);
+
+	$retorno = bd_atualiza($sql);
+
+	if($retorno && $novosDadosUsuario['imagem'])
+	{
+		atualizaImagemUsuario($novosDadosUsuario['imagem']);
+	}
+
+	return $retorno;
+}
+
+/**
+ * 
+ */
+function retornaImagemUsuario(){
+	$retorno = "imagens/usuarioSemFoto.jpg";
+
+	$sql = "
+		SELECT
+			imagem
+		FROM
+			usuario
+		WHERE
+			cod_usuario = ".$_SESSION['user_info']['cod_usuario'];
+	
+	$buscaImagem = bd_consulta($sql);
+
+	if(!empty($buscaImagem))
+	{
+		$retorno = !empty($buscaImagem[0]['imagem']) ? "data:image/png;base64,".base64_encode($buscaImagem[0]['imagem'])."" : $retorno;
+	}
+
+	return $retorno;
+}
+
+/**
+ * 
+ */
+function atualizaImagemUsuario($imagem){
+	$retorno = array('atualizacao' => false);
+
+	if(
+		!empty($imagem[0]['name']) && $imagem[0]['size'] > 0 &&
+		$imagem[0]['size'] < 2000000 && is_numeric(strpos($imagem[0]['type'], 'image/'))
+	  )
+	{
+		$handle = fopen($imagem[0]['tmp_name'], "r");
+
+		while(!feof($handle))
+		{
+			$conteudo .= fgets($handle);
+		}
+
+		fclose($handle);
+
+		$sql = "
+			UPDATE
+				usuario
+			SET
+				imagem = '".bd_mysqli_real_escape_string($conteudo)."',
+				tipo_mime = '".bd_mysqli_real_escape_string($imagem[0]['type'])."'
+			WHERE
+				cod_usuario = ".$_SESSION['user_info']['cod_usuario'];
+
+		$retorno['atualizacao'] = bd_atualiza($sql);
+	}
+
+	return $retorno;
 }
