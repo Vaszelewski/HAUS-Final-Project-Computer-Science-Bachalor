@@ -9,13 +9,10 @@ function autenticarUsuario(){
 		method: "GET",
 		data: dadosAutenticacao,
 		success: function(data){
-			if(data == 'true')
-			{
-				window.location.replace(window.location.origin + window.location.pathname);
-			}
-			else
-			{
-				alert('Credenciais invalidas.')
+			if(data == 'true'){
+				validacao('sucesso', 'Login efetuado com sucesso!')
+			}else{
+				validacao('alerta', 'Credenciais Invalidas.')
 			}
 		}
 	});
