@@ -15,7 +15,7 @@ function paginacao($pagina){
 /**
  * Mapea os dados recebidos retornando apenas os dados solicitados que estão setados
  * @param Array $dados valores a serem setados
- * @param array $chaves indices que devem ser retornados se existirem
+ * @param Array $chaves indices que devem ser retornados se existirem
  * @return Array retorna um array nomeado com os valores que foram encontrados nos dados.
  */
 function mapeaDadosRequest($dados, $chaves){

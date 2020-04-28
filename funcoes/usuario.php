@@ -118,8 +118,6 @@ function atualizaDadosUsuario($novosDadosUsuario){
 
 	$sqlSet = array();
 
-	$dadosUsuario = buscaDadosUsuario(array("parametros" => 'email', "codUsuario" => $_SESSION['user_info']['cod_usuario']));
-
 	if(isset($novosDadosUsuario['nome']))
 	{
 		$sqlSet[] = "nome = '".bd_mysqli_real_escape_string($novosDadosUsuario['nome'])."'";
@@ -145,8 +143,8 @@ function atualizaDadosUsuario($novosDadosUsuario){
 	);
 
 	$retorno = bd_atualiza($sql);
-
-	if($retorno && $novosDadosUsuario['imagem'])
+syslog(LOG_INFO, $sql);
+	if(is_numeric($retorno) && $novosDadosUsuario['imagem'])
 	{
 		atualizaImagemUsuario($novosDadosUsuario['imagem']);
 	}
@@ -208,6 +206,11 @@ function atualizaImagemUsuario($imagem){
 				cod_usuario = ".$_SESSION['user_info']['cod_usuario'];
 
 		$retorno['atualizacao'] = bd_atualiza($sql);
+
+		if($retorno['atualizacao'])
+		{
+			$_SESSION['user_info']['imagem'] = retornaImagemUsuario();
+		}
 	}
 
 	return $retorno;

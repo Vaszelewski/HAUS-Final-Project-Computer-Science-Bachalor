@@ -32,7 +32,7 @@ function atualizarDadosUsuario(dados){
 		success: function(data){
 			if(data)
 			{
-				alert('Dados atualizados com sucesso!');
+				exibeNotificacao('sucesso', 'Dados atualizados com sucesso!');
 			}
 		}
 	});
