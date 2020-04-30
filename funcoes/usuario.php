@@ -142,14 +142,7 @@ function atualizaDadosUsuario($novosDadosUsuario){
 		$sql
 	);
 
-	$retorno = bd_atualiza($sql);
-syslog(LOG_INFO, $sql);
-	if(is_numeric($retorno) && $novosDadosUsuario['imagem'])
-	{
-		atualizaImagemUsuario($novosDadosUsuario['imagem']);
-	}
-
-	return $retorno;
+	return is_numeric(bd_atualiza($sql));
 }
 
 /**
@@ -187,6 +180,7 @@ function atualizaImagemUsuario($imagem){
 		$imagem[0]['size'] < 2000000 && is_numeric(strpos($imagem[0]['type'], 'image/'))
 	  )
 	{
+		$conteudo = "";
 		$handle = fopen($imagem[0]['tmp_name'], "r");
 
 		while(!feof($handle))
@@ -206,7 +200,7 @@ function atualizaImagemUsuario($imagem){
 				cod_usuario = ".$_SESSION['user_info']['cod_usuario'];
 
 		$retorno['atualizacao'] = bd_atualiza($sql);
-
+		echo json_encode($sql);
 		if($retorno['atualizacao'])
 		{
 			$_SESSION['user_info']['imagem'] = retornaImagemUsuario();

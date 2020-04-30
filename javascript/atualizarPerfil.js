@@ -13,28 +13,43 @@ function buscaDadosUsuario(){
 }
 
 function atualizarDadosUsuario(dados){
-	let formData = new FormData();
-
-	$.each(dados['imagem'], function(chave, valor){
-		formData.append(chave, valor)
-	});
-	delete dados['imagem'];
+	var aguardaAtualizacao = $.Deferred();
 	
-	$.each(dados, function(chave, valor){
-		formData.append(chave, valor)
-	});
-
 	$.ajax({
 		url: "ajax/usuario.php",
 		method: "PATCH",
 		data: dados,
 		dataType: 'JSON',
 		success: function(data){
-			if(data)
+			if(data && $('#arquivoImagem').prop('files')[0] != undefined)
 			{
-				exibeNotificacao('sucesso', 'Dados atualizados com sucesso!');
+				let formData = new FormData();
+
+				$.each($('#arquivoImagem').prop('files'), function(chave, valor){
+					formData.append(chave, valor);
+				});
+
+				$.ajax({
+					url: "ajax/usuario.php",
+					method: "POST",
+					data: formData,
+					dataType: 'JSON',
+					processData: false,
+					contentType: false,
+					success: function(data){
+						aguardaAtualizacao.resolve();
+					}
+				});
+			}
+			else
+			{
+				aguardaAtualizacao.resolve();
 			}
 		}
+	});
+
+	$.when(aguardaAtualizacao).done(function(){
+		window.location.replace(window.location.href);
 	});
 }
 
@@ -60,8 +75,7 @@ $(document).ready(function(){
 		let dados = {
 			'nome': $('#nome').val().trim(),
 			'sobrenome': $('#sobrenome').val().trim(),
-			'email': $('#email').val().trim(),
-			'imagem': $('#arquivoImagem').prop('files')[0]
+			'email': $('#email').val().trim()
 		}
 
 		atualizarDadosUsuario(dados);
@@ -90,7 +104,7 @@ $(document).ready(function(){
 			}
 			else
 			{
-				alert('O arquivo "' + this.files[0]['name'] + '" não é uma imagem.');
+				exibeNotificacao("alerta", 'O arquivo "' + this.files[0]['name'] + '" não é uma imagem.');
 			}
 		}
 	});

@@ -15,7 +15,7 @@ function cadatrarUsuario(){
 				if(data != '0'){
 					exibeNotificacao('sucesso', 'Usuário cadastrado com sucesso!')
 				}else{
-					exibeNotificacao('alerta', 'E-mail já cadastrado.')
+					exibeNotificacao('erro', 'E-mail já cadastrado.')
 				}
 			}
 		});

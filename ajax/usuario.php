@@ -7,8 +7,16 @@ switch($_SERVER['REQUEST_METHOD'])
 	case 'POST':
 	{
 		$dadosCadastro = mapeaDadosRequest($_POST, array('nome', 'sobrenome', 'email', 'senha'));
+		$atualizaçãoImagem = isset($_FILES) ? $_FILES : null;
 
-		$retorno = cadastrarUsuario($dadosCadastro);
+		if(count($atualizaçãoImagem))
+		{
+			$retorno = atualizaImagemUsuario($atualizaçãoImagem);
+		}
+		else
+		{
+			$retorno = cadastrarUsuario($dadosCadastro);
+		}
 
 		echo json_encode($retorno);
 
@@ -47,7 +55,6 @@ switch($_SERVER['REQUEST_METHOD'])
 		parse_str(file_get_contents('php://input'), $_PATCH);
 
 		$dadosRequisicao = mapeaDadosRequest($_PATCH, array('nome', 'sobrenome', 'email'));
-		$dadosRequisicao['imagem'] = isset($_FILES) ?? null;
 
 		$retorno = atualizaDadosUsuario($dadosRequisicao);
 		
