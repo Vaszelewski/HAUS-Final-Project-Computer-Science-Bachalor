@@ -1,6 +1,8 @@
 <?php
 /**
- * 
+ * Consulta a tabela de usuário.
+ * @param Array $dadosBusca recebe os dados que devem ser buscados.
+ * @return Array retorna os dados encontrados referente a pesquisa realizada, se nenhum dado for encontrado retorna um array vazio
  */
 function buscaDadosUsuario($dadosBusca){
 	$sql = "
@@ -27,7 +29,7 @@ function buscaDadosUsuario($dadosBusca){
 }
 
 /**
- * Reponsável por cadastrar um usuário.
+ * Cadastrar um usuário.
  * @param Array $dadosCadastro informacões do usuário a ser criado
  * @return Int retorna 0 em caso de falha ao cadastrar ou o id do usuário criado.
  */
@@ -74,7 +76,7 @@ function verificaUsuarioExistente($email){
 }
 
 /**
- * Responsável por autenticar um usuário.
+ * Autenticar um usuário.
  * 	Esta função também é responsável por popular a sessão com as informações do usuário no caso das credenciais serem válidas.
  * @param Array $usuario credenciais para autenticação
  * @return Boolean informa true caso as credenciais sejam válidas, se não false.
@@ -105,7 +107,9 @@ function autenticaUsuario($usuario){
 }
 
 /**
- * 
+ * Atualiza um usuário.
+ * @param Array $novosDadosUsuario dados para a atualização
+ * @return Boolean retorna verdadeiro caso a atualização tenha ocorrido com sucesso, senão falso.
  */
 function atualizaDadosUsuario($novosDadosUsuario){
 	$sql = "
@@ -146,14 +150,15 @@ function atualizaDadosUsuario($novosDadosUsuario){
 }
 
 /**
- * 
+ * Retorna o base64 da imagem do usuário logado.
+ * @return String base64 da imagem do usuário.
  */
 function retornaImagemUsuario(){
 	$retorno = "imagens/usuarioSemFoto.jpg";
 
 	$sql = "
 		SELECT
-			imagem
+			tipo_mime, imagem
 		FROM
 			usuario
 		WHERE
@@ -163,17 +168,21 @@ function retornaImagemUsuario(){
 
 	if(!empty($buscaImagem))
 	{
-		$retorno = !empty($buscaImagem[0]['imagem']) ? "data:image/png;base64,".base64_encode($buscaImagem[0]['imagem'])."" : $retorno;
+		$retorno =  !empty($buscaImagem[0]['imagem']) 
+					? "data:".$buscaImagem[0]['tipo_mime'].";base64,".base64_encode($buscaImagem[0]['imagem']).""
+					: $retorno;
 	}
 
 	return $retorno;
 }
 
 /**
- * 
+ * Atualiza a imagem do usuário.
+ * @param Array $imagem informações da imagem
+ * @return Int retorna 0 no caso de falha e 1 no caso de sucesso durante a atualização
  */
 function atualizaImagemUsuario($imagem){
-	$retorno = array('atualizacao' => false);
+	$retorno = 0;
 
 	if(
 		!empty($imagem[0]['name']) && $imagem[0]['size'] > 0 &&
@@ -200,7 +209,7 @@ function atualizaImagemUsuario($imagem){
 				cod_usuario = ".$_SESSION['user_info']['cod_usuario'];
 
 		$retorno['atualizacao'] = bd_atualiza($sql);
-		echo json_encode($sql);
+
 		if($retorno['atualizacao'])
 		{
 			$_SESSION['user_info']['imagem'] = retornaImagemUsuario();

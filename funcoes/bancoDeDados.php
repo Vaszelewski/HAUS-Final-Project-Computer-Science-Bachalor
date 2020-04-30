@@ -11,7 +11,7 @@ function bd_conecta(){
 /**
  * Responsável por realizar o tratamento dos valores imputados nas querys que serão executadas no banco de dados.
  * @param String $valor string a ser tratada
- * @return String retorna o valor informado tratados para serem inseridos no banco de dados.
+ * @return String retorna o valor informado com os devidos tratamentos para serem inseridos no banco de dados.
  */
 function bd_mysqli_real_escape_string($valor){
 	$conexao = bd_conecta();
@@ -44,6 +44,11 @@ function bd_insere($sql){
 	return $retorno;
 }
 
+/**
+ * Responsável por executar as querys e atualização no banco de dados.
+ * @param String $sql query que será executada para a atualização.
+ * @return Int em caso de falha retorna 0 ou o erro na execução da query, em caso e sucesso retorna o numero de linhas afetadas.
+ */
 function bd_atualiza($sql){
 	$retorno = 0;
 	$conexao = bd_conecta();
