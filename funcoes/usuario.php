@@ -208,9 +208,9 @@ function atualizaImagemUsuario($imagem){
 			WHERE
 				cod_usuario = ".$_SESSION['user_info']['cod_usuario'];
 
-		$retorno['atualizacao'] = bd_atualiza($sql);
+		$retorno = bd_atualiza($sql);
 
-		if($retorno['atualizacao'])
+		if($retorno)
 		{
 			$_SESSION['user_info']['imagem'] = retornaImagemUsuario();
 		}

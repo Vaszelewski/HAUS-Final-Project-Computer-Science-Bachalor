@@ -19,8 +19,8 @@ ON
 TO
 	public_haus IDENTIFIED BY 'Teste1234567890';
 
-GRANT INSERT
-ON
+GRANT SELECT, INSERT, UPDATE
+ON 
 	haus.usuario
 TO
-	public_haus;
+	public_haus@%;
