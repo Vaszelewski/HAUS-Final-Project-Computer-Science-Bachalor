@@ -51,6 +51,7 @@ function atualizarDadosUsuario(dados){
 	});
 
 	$.when(aguardaAtualizacao).done(function(){
+		criaCookie('atualizacao', 'true');
 		window.location.replace(window.location.href);
 	});
 }
@@ -69,9 +70,19 @@ function buscaImagemUsuario(){
 	});
 }
 
+function verificaAtualizacao(){
+	let atualizacao = buscaCookie('atualizacao');
+	if(atualizacao == 'true')
+	{
+		exibeNotificacao('sucesso', 'Sucesso na Atualização');
+		deletaCookie('atualizacao');
+	}
+}
+
 $(document).ready(function(){
 	buscaDadosUsuario();
 	buscaImagemUsuario();
+	verificaAtualizacao();
 
 	$('#atualizaPerfil').click(function(){
 		let dados = {
