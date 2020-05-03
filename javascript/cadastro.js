@@ -1,4 +1,4 @@
-function cadatrarUsuario(){
+function cadastrarUsuario(){
 	let dadosCadastro = {
 		'nome': $('#nome').val().trim(),
 		'sobrenome': $('#sobrenome').val().trim(),
@@ -30,6 +30,6 @@ function validaSenha(senha, confiramacao){
 
 $(document).ready(function(){
 	$('#efetuarCadastro').click(function(){
-		cadatrarUsuario();
+		cadastrarUsuario();
 	});
 });

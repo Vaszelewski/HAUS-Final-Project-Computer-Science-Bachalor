@@ -13,13 +13,15 @@ function buscaDadosUsuario($dadosBusca){
 		WHERE
 			1
 			[%1]
+			[%2]
 	";
 
 	$codUsuario = isset($dadosBusca['codUsuario']) ? "AND cod_usuario = ".bd_mysqli_real_escape_string($dadosBusca['codUsuario']) : "";
+	$email = isset($dadosBusca['email']) ? "AND email LIKE '".bd_mysqli_real_escape_string($dadosBusca['email'])."'" : "";
 
 	$sql = str_replace(
-		array('[%1]'),
-		array($codUsuario),
+		array('[%1]', '[%2]'),
+		array($codUsuario, $email),
 		$sql
 	);
 
@@ -84,16 +86,12 @@ function verificaUsuarioExistente($email){
 function autenticaUsuario($usuario){
 	$retorno = false;
 
-	$sql = "
-		SELECT
-			cod_usuario, nome, sobrenome, email, senha
-		FROM
-			usuario
-		WHERE
-			email LIKE '".bd_mysqli_real_escape_string($usuario['email'])."'
-	";
+	$dadosBusca = array(
+		"parametros" => 'cod_usuario, nome, sobrenome, display_name, email, senha',
+		"email" => $usuario['email']
+	);
 
-	$dadosUsuario = bd_consulta($sql);
+	$dadosUsuario = buscaDadosUsuario($dadosBusca);
 
 	if(!empty($dadosUsuario) && password_verify($usuario['senha'], $dadosUsuario[0]['senha']))
 	{
@@ -132,6 +130,16 @@ function atualizaDadosUsuario($novosDadosUsuario){
 		$sqlSet[] = "sobrenome = '".bd_mysqli_real_escape_string($novosDadosUsuario['sobrenome'])."'";
 	}
 
+	if(isset($novosDadosUsuario['displayName']))
+	{
+		$sqlSet[] = "display_name = '".bd_mysqli_real_escape_string($novosDadosUsuario['displayName'])."'";
+	}
+
+	if(isset($novosDadosUsuario['descricao']))
+	{
+		$sqlSet[] = "descricao = '".bd_mysqli_real_escape_string($novosDadosUsuario['descricao'])."'";
+	}
+
 	if(isset($novosDadosUsuario['email']))
 	{
 		if(!verificaUsuarioExistente($novosDadosUsuario['email']))
@@ -146,7 +154,22 @@ function atualizaDadosUsuario($novosDadosUsuario){
 		$sql
 	);
 
-	return is_numeric(bd_atualiza($sql));
+	$retorno = is_numeric(bd_atualiza($sql));
+
+	if($retorno)
+	{
+		$dadosBusca = array(
+			"parametros" => 'cod_usuario, nome, display_name',
+			"codUsuario" => $_SESSION['user_info']['cod_usuario']
+		);
+
+		$dadosAtualizados = buscaDadosUsuario($dadosBusca);
+
+		$_SESSION['user_info']['nome'] = $dadosAtualizados[0]['nome'];
+		$_SESSION['user_info']['display_name'] = $dadosAtualizados[0]['display_name'];
+	}
+
+	return $retorno;
 }
 
 /**

@@ -83,12 +83,13 @@
 	}
 	else
 	{
+		$displayName = strlen($_SESSION['user_info']['display_name']) > 0 ? $_SESSION['user_info']['display_name'] : $_SESSION['user_info']['nome'];
 ?>
 	<div class="col-3 col-md-3 d-none d-xl-block" data-aos="fade-down">
 		<nav class="site-navigation position-relative text-right text-lg-center" role="navigation">
 			<ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
 				<li>
-					<a href="?pag=atualizarPerfil"><?= htmlentities($_SESSION['user_info']['nome']) ?></a>
+					<a href="?pag=atualizarPerfil"><?= htmlentities($displayName) ?></a>
 				</li>
 				<li>
 					<div>

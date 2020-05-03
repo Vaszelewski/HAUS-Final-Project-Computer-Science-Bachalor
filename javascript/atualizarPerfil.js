@@ -2,12 +2,14 @@ function buscaDadosUsuario(){
 	$.ajax({
 		url: "ajax/usuario.php",
 		method: "GET",
-		data: {'parametros': 'nome, sobrenome, email'},
+		data: {'parametros': 'nome, sobrenome, email, descricao, display_name'},
 		dataType: 'JSON',
 		success: function(data){
 			$('#nome').val(data[0]['nome']);
 			$('#sobrenome').val(data[0]['sobrenome']);
 			$('#email').val(data[0]['email']);
+			$('#displayName').val(data[0]['display_name']);
+			$('#descricao').val(data[0]['descricao']);
 		}
 	});
 }
@@ -75,7 +77,9 @@ $(document).ready(function(){
 		let dados = {
 			'nome': $('#nome').val().trim(),
 			'sobrenome': $('#sobrenome').val().trim(),
-			'email': $('#email').val().trim()
+			'email': $('#email').val().trim(),
+			'displayName': $('#displayName').val().trim(),
+			'descricao': $('#descricao').val().trim()
 		}
 
 		atualizarDadosUsuario(dados);
@@ -107,5 +111,17 @@ $(document).ready(function(){
 				exibeNotificacao("alerta", 'O arquivo "' + this.files[0]['name'] + '" não é uma imagem.');
 			}
 		}
+	});
+
+	$("#deslogar").click(function(){
+		$.ajax({
+			url: "ajax/usuario.php",
+			method: "POST",
+			data: {'deslogar': 'true'},
+			dataType: 'JSON',
+			success: function(data){
+				window.location.replace(window.location.origin + window.location.pathname);
+			}
+		});
 	});
 });

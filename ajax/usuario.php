@@ -6,12 +6,18 @@ switch($_SERVER['REQUEST_METHOD'])
 {
 	case 'POST':
 	{
-		$dadosCadastro = mapeaDadosRequest($_POST, array('nome', 'sobrenome', 'email', 'senha'));
+		$dadosCadastro = mapeaDadosRequest($_POST, array('nome', 'sobrenome', 'email', 'senha', 'deslogar'));
 		$atualizaçãoImagem = isset($_FILES) ? $_FILES : null;
 
 		if(count($atualizaçãoImagem))
 		{
 			$retorno = atualizaImagemUsuario($atualizaçãoImagem);
+		}
+		else if($dadosCadastro['deslogar'] == "true")
+		{
+			session_destroy();
+			echo true;
+			break;
 		}
 		else
 		{
@@ -54,7 +60,7 @@ switch($_SERVER['REQUEST_METHOD'])
 	{
 		parse_str(file_get_contents('php://input'), $_PATCH);
 
-		$dadosRequisicao = mapeaDadosRequest($_PATCH, array('nome', 'sobrenome', 'email'));
+		$dadosRequisicao = mapeaDadosRequest($_PATCH, array('nome', 'sobrenome', 'email', 'displayName', 'descricao'));
 
 		$retorno = atualizaDadosUsuario($dadosRequisicao);
 		

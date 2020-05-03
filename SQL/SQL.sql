@@ -2,10 +2,12 @@ CREATE DATABASE IF NOT EXISTS haus;
 
 CREATE TABLE IF NOT EXISTS
 	haus.usuario(
-		cod_usuario INT PRIMARY KEY,
+		cod_usuario INT PRIMARY KEY AUTO_INCREMENT,
 		nome VARCHAR(50),
 		sobrenome VARCHAR(100),
+		display_name VARCHAR(50) NULL,
 		email VARCHAR(50),
+		descricao VARCHAR(255) NULL,
 		senha TEXT,
 		tipo_mime VARCHAR(50) NULL DEFAULT NULL,
 		imagem MEDIUMBLOB NULL DEFAULT NULL
