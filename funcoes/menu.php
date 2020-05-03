@@ -1,11 +1,11 @@
-<div class="row align-items-center">
-	<div class="col-6 col-xl-2" data-aos="fade-down">
+<div class="row align-items-center marginMenu">
+	<div class="col-6 col-xl-3" data-aos="fade-down">
 		<h1 class="mb-0">
-			<a href="index.php" class="text-black h2 mb-0">Photon</a>
+			<a href="index.php" class="text-black h2 mb-0">Haus</a>
 		</h1>
 	</div>
 
-	<div class="col-10 col-md-7 d-none d-xl-block" data-aos="fade-down">
+	<div class="col-10 col-md-6 d-none d-xl-block" data-aos="fade-down">
 		<nav class="site-navigation position-relative text-right text-lg-center" role="navigation">
 			<ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
 				<li class="active">
@@ -63,7 +63,10 @@
 			</ul>
 		</nav>
 	</div>
-
+<?php
+	if(!isset($_SESSION['user_info']))
+	{
+?>
 	<div class="col-3 col-md-3 d-none d-xl-block" data-aos="fade-down">
 		<nav class="site-navigation position-relative text-right text-lg-center" role="navigation">
 			<ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
@@ -76,9 +79,31 @@
 			</ul>
 		</nav>
 	</div>
-
-	<!-- <div class="col-6 col-xl-2 text-right" data-aos="fade-down">
-		<div class="d-none d-xl-inline-block">
+<?php
+	}
+	else
+	{
+		$displayName = strlen($_SESSION['user_info']['display_name']) > 0 ? $_SESSION['user_info']['display_name'] : $_SESSION['user_info']['nome'];
+?>
+	<div class="col-3 col-md-3 d-none d-xl-block" data-aos="fade-down">
+		<nav class="site-navigation position-relative text-right text-lg-center" role="navigation">
+			<ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
+				<li>
+					<a href="?pag=atualizarPerfil"><?= htmlentities($displayName) ?></a>
+				</li>
+				<li>
+					<div>
+						<img id="miniaturaUsuario" src="<?= htmlentities($_SESSION['user_info']['imagem']) ?>">
+					</div>
+				</li>
+			</ul>
+		</nav>
+	</div>
+<?php
+	}
+?>
+	<div class="col-6 col-xl-2 text-right" data-aos="fade-down">
+		<!-- <div class="d-none d-xl-inline-block">
 			<ul class="site-menu js-clone-nav ml-auto list-unstyled d-flex text-right mb-0" data-class="social">
 				<li>
 					<a href="#" class="pl-0 pr-3"><span class="icon-facebook"></span></a>

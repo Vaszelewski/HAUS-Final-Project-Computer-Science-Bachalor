@@ -10,9 +10,9 @@ function autenticarUsuario(){
 		data: dadosAutenticacao,
 		success: function(data){
 			if(data == 'true'){
-				validacao('sucesso', 'Login efetuado com sucesso!')
+				window.location.replace(window.location.origin + window.location.pathname);
 			}else{
-				validacao('alerta', 'Credenciais Invalidas.')
+				exibeNotificacao('erro', 'Credenciais Invalidas.')
 			}
 		}
 	});

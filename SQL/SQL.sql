@@ -2,12 +2,18 @@ CREATE DATABASE IF NOT EXISTS haus;
 
 CREATE TABLE IF NOT EXISTS
 	haus.usuario(
-		id INT PRIMARY KEY,
+		cod_usuario INT PRIMARY KEY AUTO_INCREMENT,
 		nome VARCHAR(50),
 		sobrenome VARCHAR(100),
+		display_name VARCHAR(50) NULL,
 		email VARCHAR(50),
-		senha TEXT
+		descricao VARCHAR(255) NULL,
+		senha TEXT,
+		tipo_mime VARCHAR(50) NULL DEFAULT NULL,
+		imagem MEDIUMBLOB NULL DEFAULT NULL
 	);
+
+DROP USER public_haus;
 
 GRANT SELECT
 ON
@@ -15,8 +21,8 @@ ON
 TO
 	public_haus IDENTIFIED BY 'Teste1234567890';
 
-GRANT INSERT
-ON
+GRANT SELECT, INSERT, UPDATE
+ON 
 	haus.usuario
 TO
-	public_haus;
+	public_haus@%;

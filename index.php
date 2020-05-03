@@ -5,9 +5,9 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 	<head>
-		<title>Photon &mdash; Colorlib Website Template</title>
+		<title>Haus</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -18,7 +18,7 @@
 		<link rel="stylesheet" href="vendors/estilos/jquery-ui.css">
 		<link rel="stylesheet" href="vendors/estilos/owl.carousel.min.css">
 		<link rel="stylesheet" href="vendors/estilos/owl.theme.default.min.css">
-		<link rel="stylesheet" href="vendors/estilos/lightgallery.min.css">    
+		<link rel="stylesheet" href="vendors/estilos/lightgallery.min.css">
 		<link rel="stylesheet" href="vendors/estilos/bootstrap-datepicker.css">
 		<link rel="stylesheet" href="fonts/flaticon/font/flaticon.css">
 		<link rel="stylesheet" href="vendors/estilos/swiper.css">
@@ -26,6 +26,7 @@
 		<link rel="stylesheet" href="vendors/estilos/style.css">
 		<link rel="stylesheet" href="vendors/estilos/alertify.min.css">
 		<link rel="stylesheet" href="vendors/estilos/default.min.css">
+		<link rel="stylesheet" href="estilos/estilo.css">
 
 		<script src="vendors/javascript/jquery-3.3.1.min.js"></script>
 		<script src="vendors/javascript/jquery-migrate-3.0.1.min.js"></script>

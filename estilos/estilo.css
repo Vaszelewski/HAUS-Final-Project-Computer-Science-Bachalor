@@ -1,0 +1,47 @@
+.marginMenu{
+	margin-top: -15px;
+}
+
+.none{
+	display: none;
+}
+
+#miniaturaUsuario{
+	border-radius: 50%;
+	max-width: 60px;
+}
+
+#imagemPreview{
+	justify-content: center;
+	margin-bottom: 70px;
+}
+
+#imagemPreview img{
+	border: 5px solid #56555552;
+	width: 140px;
+	height: 140px;
+}
+
+#imagemPreview div{
+	position: absolute;
+	background-color: black;
+	width: 130px;
+	height: 130px;
+	color: #FFF;
+	text-align: center;
+	opacity: 0;
+	margin-top: 5px;
+	cursor: pointer;
+}
+
+#imagemPreview div:hover{
+	opacity: 0.5;
+}
+
+#imagemPreview span{
+	display: inline-block;
+	margin-top: 40%;
+}
+
+
+

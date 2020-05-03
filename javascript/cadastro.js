@@ -1,4 +1,4 @@
-function cadatrarUsuario(){
+function cadastrarUsuario(){
 	let dadosCadastro = {
 		'nome': $('#nome').val().trim(),
 		'sobrenome': $('#sobrenome').val().trim(),
@@ -13,14 +13,14 @@ function cadatrarUsuario(){
 			data: dadosCadastro,
 			success: function(data){
 				if(data != '0'){
-					validacao('sucesso', 'Usuário cadastrado com sucesso!')
+					exibeNotificacao('sucesso', 'Usuário cadastrado com sucesso!')
 				}else{
-					validacao('alerta', 'E-mail já cadastrado.')
+					exibeNotificacao('erro', 'E-mail já cadastrado.')
 				}
 			}
 		});
 	}else{
-		validacao('alerta', 'As senhas não coincidem.')
+		exibeNotificacao('alerta', 'As senhas não coincidem.')
 	}
 }
 
@@ -30,6 +30,6 @@ function validaSenha(senha, confiramacao){
 
 $(document).ready(function(){
 	$('#efetuarCadastro').click(function(){
-		cadatrarUsuario();
+		cadastrarUsuario();
 	});
 });
