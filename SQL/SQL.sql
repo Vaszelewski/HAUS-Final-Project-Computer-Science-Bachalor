@@ -13,6 +13,36 @@ CREATE TABLE IF NOT EXISTS
 		imagem MEDIUMBLOB NULL DEFAULT NULL
 	);
 
+CREATE TABLE IF NOT EXISTS
+	haus.categoria(
+		cod_categoria INT PRIMARY KEY AUTO_INCREMENT,
+		nome VARCHAR(100)
+	)
+
+CREATE TABLE IF NOT EXISTS
+	haus.colecao(
+		cod_colecao INT PRIMARY KEY AUTO_INCREMENT,
+		nome VARCHAR(100),
+		descricao VARCHAR(255) NULL,
+		cod_categoria INT,
+		privacidade TEXT,
+		tipo_mime VARCHAR(50) NULL DEFAULT NULL,
+		imagem LONGBLOB NULL DEFAULT NULL,
+
+		FOREIGN KEY (cod_categoria) REFERENCES categoria(cod_categoria)
+	);
+
+CREATE TABLE IF NOT EXISTS
+	haus.rel_usuarioxcolecao(
+		cod_usuario INT,
+		cod_colecao INT,
+		dono INT,
+		moderador INT,
+
+		FOREIGN KEY (cod_usuario) REFERENCES usuario(cod_usuario),
+		FOREIGN KEY (cod_colecao) REFERENCES colecao(cod_colecao)
+	);
+
 DROP USER public_haus;
 
 GRANT SELECT
