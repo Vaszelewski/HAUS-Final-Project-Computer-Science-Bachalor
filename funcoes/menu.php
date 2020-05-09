@@ -58,7 +58,7 @@
 					<a href="?pag=sobre">Sobre</a>
 				</li>
 				<li>
-					<a href="?pag=contact">Contact</a>
+					<a href="?pag=suporte">Suporte</a>
 				</li>
 			</ul>
 		</nav>
