@@ -14,11 +14,12 @@ switch($_SERVER['REQUEST_METHOD'])
 
 	case 'POST':
 	{
-		$dadosSuporte = mapeaDadosRequest($_POST, array('codOpcao', 'email', 'assunto', 'mensagem'));
-		$retorno = cadastrarSuporte($dadosSuporte);
+		$dadosSuporte = mapeaDadosRequest($_POST, array('codOpcao','cod_usuario', 'email', 'assunto', 'mensagem'));
+		if(!isset($dadosSuporte['codUsuario']) && isset($_SESSION['user_info'])){
+			$dadosSuporte['codUsuario'] = $_SESSION['user_info']['cod_usuario'];
+			$retorno = cadastrarSuporte($dadosSuporte);
+		}
 		echo json_encode($retorno);
 		break;
 	}
-
-	
 }

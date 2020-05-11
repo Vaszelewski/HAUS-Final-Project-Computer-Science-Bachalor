@@ -14,18 +14,21 @@ CREATE TABLE IF NOT EXISTS
 	);
 
 CREATE TABLE IF NOT EXISTS
-	haus.suporte(
-		cod_suporte INT PRIMARY KEY AUTO_INCREMENT,
-		cod_opcao TINYINT(1) NOT NULL,
-		email VARCHAR(100) NOT NULL,
-		assunto VARCHAR(100) NOT NULL,
-		mensagem VARCHAR(255) NOT NULL
-	);
-
-CREATE TABLE IF NOT EXISTS
 	haus.opcoes_suporte(
 		cod_opcao INT PRIMARY KEY,
 		texto VARCHAR(100) NOT NULL
+	);
+
+CREATE TABLE IF NOT EXISTS
+	haus.suporte(
+		cod_suporte INT PRIMARY KEY AUTO_INCREMENT,
+		cod_opcao TINYINT(1) NOT NULL,
+		cod_usuario INT NOT NULL,
+		email VARCHAR(100) NOT NULL,
+		assunto VARCHAR(100) NOT NULL,
+		mensagem VARCHAR(255) NOT NULL
+
+		FOREIGN KEY (cod_opcao) REFERENCES opcoes_suporte(cod_opcao)
 	);
 
 INSERT INTO 

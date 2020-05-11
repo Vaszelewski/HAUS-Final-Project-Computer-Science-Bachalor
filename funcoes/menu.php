@@ -57,7 +57,7 @@
 				<li>
 					<a href="?pag=sobre">Sobre</a>
 				</li>
-				<li>
+				<li class="<?= !isset($_SESSION['user_info'])? "none" : "" ?>">
 					<a href="?pag=suporte">Suporte</a>
 				</li>
 			</ul>

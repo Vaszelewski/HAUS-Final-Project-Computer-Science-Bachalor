@@ -8,9 +8,10 @@ function cadastrarSuporte($dadosSuporte){
 	$retorno = 0;
 	$sql = "
 		INSERT INTO
-			suporte(cod_opcao, email, assunto, mensagem)
+			suporte(cod_opcao, cod_usuario, email, assunto, mensagem)
 		VALUES (
 			'".bd_mysqli_real_escape_string($dadosSuporte['codOpcao'])."',
+			'".bd_mysqli_real_escape_string($dadosSuporte['codUsuario'])."',
 			'".bd_mysqli_real_escape_string($dadosSuporte['email'])."',
 			'".bd_mysqli_real_escape_string($dadosSuporte['assunto'])."',
 			'".bd_mysqli_real_escape_string($dadosSuporte['mensagem'])."'
