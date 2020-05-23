@@ -44,3 +44,33 @@ function mapeaDadosRequest($dados, $chaves){
 function encripta($senha){
 	return password_hash($senha, PASSWORD_DEFAULT);
 }
+
+/**
+ * 
+ */
+function preparaDadoRecebidos(){
+	$retorno = array();
+	$headers = apache_request_headers();
+
+	switch ($headers['Content-Type'])
+	{
+		case 'application/json':
+		{
+			$dados = file_get_contents('php://input');
+
+			if(!empty($dados))
+			{
+				$retorno = json_decode($dados, true);
+			}
+			
+			break;
+		}
+		case 'application/x-www-form-urlencoded':
+		{
+			$retorno = is_array($_POST) ? $_POST : array();
+			break;
+		}
+	}
+
+	return $retorno;
+}

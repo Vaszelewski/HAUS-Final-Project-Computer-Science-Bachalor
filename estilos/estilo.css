@@ -3,9 +3,16 @@
 }
 
 .none{
-	display: none;
+	display: none !important;
 }
 
+/*--------------------Index--------------------*/
+#containerBtnNovaColecao{
+	margin-top: 15px;
+	text-align: center;
+}
+
+/*--------------------Altualiza perfil--------------------*/
 #miniaturaUsuario{
 	border-radius: 50%;
 	max-width: 60px;

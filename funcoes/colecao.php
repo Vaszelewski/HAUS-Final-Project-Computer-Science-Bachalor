@@ -34,18 +34,15 @@ function cadastrarColecao($colecao){
 
 	$sql = "
 		INSERT INTO
-			colecao(nome, descricao, cod_categoria, privacidade)
+			colecao(nome, descricao, cod_categoria)
 		VALUES (
 			'".bd_mysqli_real_escape_string($colecao['nome'])."',
 			'".bd_mysqli_real_escape_string($colecao['descricao'])."',
-			'".bd_mysqli_real_escape_string($colecao['codCategoria'])."',
-			'".bd_mysqli_real_escape_string($colecao['privacidade'])."'
+			'".bd_mysqli_real_escape_string($colecao['codCategoria'])."'
 		)
 	";
 
-	$retorno['resultado'] = bd_insere($sql);
-
-	if($retorno['resultado'])
+	if(bd_insere($sql) > 0)
 	{
 		$retorno = relacionaColecaoUsuario($retorno);
 	}
@@ -57,7 +54,7 @@ function cadastrarColecao($colecao){
  * 
  */
 function relacionaColecaoUsuario($codColecao){
-	$retorno = array("resultado" => false, "log" => "Falha ao relacionar usuário a coleção");
+	$retorno = array("resultado" => false, "log" => "Falha ao relacionar usuário a coleção, coleção não criada.");
 
 	$sql = "
 		INSERT INTO
@@ -69,11 +66,15 @@ function relacionaColecaoUsuario($codColecao){
 		)
 	";
 
-	$retorno['resultado'] = bd_insere($sql);
+	if(bd_insere($sql) > 0 )
+	{
+		$retorno['resultado'] = true;
+		$retorno['log'] = "";
+	}
 
 	if(!$retorno['resultado'])
 	{
-		desfazCriacaoColecao($codColecao);
+		excluiColecao($codColecao);
 	}
 
 	return $retorno;
@@ -82,7 +83,7 @@ function relacionaColecaoUsuario($codColecao){
 /**
  * 
  */
-function desfazCriacaoColecao($codColecao){
+function excluiColecao($codColecao){
 	$sql = "
 		DELETE FROM
 			colecao

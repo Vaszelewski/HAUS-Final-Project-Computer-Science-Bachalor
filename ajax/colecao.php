@@ -4,17 +4,6 @@ require_once('../funcoes/colecao.php');
 
 switch($_SERVER['REQUEST_METHOD'])
 {
-	case 'POST':
-	{
-		$dadosCadastro = mapeaDadosRequest($_POST, array('nome', 'descricao', 'cod_categoria', 'privacidade'));
-
-		$retorno = cadastrarColecao($dadosCadastro);
-
-		echo json_encode($retorno);
-
-		break;
-	}
-
 	case 'GET':
 	{
 		$dadosRequisicao = mapeaDadosRequest($_GET, array('parametros', 'codCategoria'));
@@ -26,11 +15,26 @@ switch($_SERVER['REQUEST_METHOD'])
 		break;
 	}
 
+	case 'POST':
+	{
+		$dadosRecebidos = preparaDadoRecebidos();
+		$dadosCadastro = mapeaDadosRequest($dadosRecebidos, array('nome', 'descricao', 'codCategoria', 'privacidade'));
+		echo json_encode($dadosCadastro);
+		if(isset($dadosCadastro['nome']) && isset($dadosCadastro['descricao']) && isset($dadosCadastro['codCategoria']))
+		{
+			$retorno = cadastrarColecao($dadosCadastro);
+		}
+
+		echo json_encode($retorno);
+
+		break;
+	}
+
 	case 'PATCH':
 	{
-		parse_str(file_get_contents('php://input'), $_PATCH);
+		$dadosRecebidos = preparaDadoRecebidos();
 
-		$dadosRequisicao = mapeaDadosRequest($_PATCH, array('nome', 'descricao', 'cod_categoria', 'privacidade'));
+		$dadosRequisicao = mapeaDadosRequest($dadosRecebidos, array('nome', 'descricao', 'cod_categoria', 'privacidade'));
 
 		$retorno = atualizaColecao($dadosRequisicao);
 

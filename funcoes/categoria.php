@@ -3,6 +3,8 @@
  * 
  */
 function buscaCategoria($dadosBusca){
+	$retorno = array("resultado" => false, "mensagem" => "Categoria não encontrada.", "dados" => array());
+	
 	$sql = "
 		SELECT
 			".bd_mysqli_real_escape_string($dadosBusca['parametros'])."
@@ -15,13 +17,20 @@ function buscaCategoria($dadosBusca){
 
 	$nome = isset($dadosBusca['nome']) ? "AND nome LIKE '".bd_mysqli_real_escape_string($dadosBusca['nome'])."'" : "";
 
-	$sql = str_replace( 
+	$sql = str_replace(
 		array('[%1]'),
 		array($nome),
 		$sql
 	);
 
-	$retorno = bd_consulta($sql);
+	$dadosBusca = bd_consulta($sql);
+
+	if(is_array($dadosBusca))
+	{
+		$retorno['resultado'] = true;
+		$retorno['mensagem'] = "";
+		$retorno['dados'] = $dadosBusca;
+	}
 
 	return $retorno;
 }
@@ -30,7 +39,10 @@ function buscaCategoria($dadosBusca){
  * 
  */
 function cadastrarCategoria($categoria){
-	$retorno = 0;
+	$retorno = array(
+		'resultado' => false,
+		'mensagem' => ""
+	);
 
 	$sql = "
 		INSERT INTO
@@ -42,7 +54,11 @@ function cadastrarCategoria($categoria){
 
 	if(verificaExistenciaCategoria($categoria['nome']))
 	{
-		$retorno = bd_insere($sql);
+		$retorno['resultado'] = bd_insere($sql);
+	}
+	else
+	{
+		$retorno['mensagem'] = "Categoria já existe.";
 	}
 
 	return $retorno;
@@ -54,8 +70,8 @@ function cadastrarCategoria($categoria){
 function verificaExistenciaCategoria($nome){
 	$retorno = false;
 	$categoria = buscaCategoria(array("parametros" => 'nome', "nome" => $nome));
-	
-	if(empty($categoria))
+
+	if(empty($categoria['dados']))
 	{
 		$retorno = true;
 	}

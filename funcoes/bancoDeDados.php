@@ -100,6 +100,28 @@ function bd_consulta($sql){
 	return $retorno;
 }
 
-function bd_exclui(){
+/**
+ * Responsável por executar as querys de exclusão no banco de dados.
+ * @param String $sql query que será executada para a exclusão.
+ * @return Int em caso de falha retorna false ou o erro na execução da query, em caso e sucesso retorna true.
+ */
+function bd_exclui($sql){
+	$retorno = false;
+	$conexao = bd_conecta();
 
+	if(!$conexao)
+	{
+		return $retorno;
+	}
+
+	if(mysqli_query($conexao, $sql))
+	{
+		$retorno = true;
+	}
+	else
+	{
+		$retorno = mysqli_error($conexao);
+	}
+
+	return $retorno;
 }
