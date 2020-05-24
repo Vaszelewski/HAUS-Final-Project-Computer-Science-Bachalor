@@ -51,8 +51,9 @@ function encripta($senha){
 function preparaDadoRecebidos(){
 	$retorno = array();
 	$headers = apache_request_headers();
+	$contentType = explode(';', $headers['Content-Type']);
 
-	switch ($headers['Content-Type'])
+	switch($contentType[0])
 	{
 		case 'application/json':
 		{
@@ -65,6 +66,7 @@ function preparaDadoRecebidos(){
 			
 			break;
 		}
+		case 'multipart/form-data':
 		case 'application/x-www-form-urlencoded':
 		{
 			$retorno = is_array($_POST) ? $_POST : array();

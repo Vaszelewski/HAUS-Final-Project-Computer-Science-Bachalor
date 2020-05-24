@@ -6,7 +6,7 @@ switch($_SERVER['REQUEST_METHOD'])
 {
 	case 'GET':
 	{
-		$dadosRequisicao = mapeaDadosRequest($_GET, array('parametros', 'codCategoria'));
+		$dadosRequisicao = mapeaDadosRequest($_GET, array('parametros', 'buscaColecoesUsuario'));
 		
 		$retorno = buscarColecao($dadosRequisicao);
 
@@ -18,9 +18,10 @@ switch($_SERVER['REQUEST_METHOD'])
 	case 'POST':
 	{
 		$dadosRecebidos = preparaDadoRecebidos();
-		$dadosCadastro = mapeaDadosRequest($dadosRecebidos, array('nome', 'descricao', 'codCategoria', 'privacidade'));
-		echo json_encode($dadosCadastro);
-		if(isset($dadosCadastro['nome']) && isset($dadosCadastro['descricao']) && isset($dadosCadastro['codCategoria']))
+		$dadosCadastro = mapeaDadosRequest($dadosRecebidos, array('titulo', 'codCategoria', 'descricao'));
+		$dadosCadastro['capa'] = isset($_FILES) ? $_FILES : null;
+		
+		if(isset($dadosCadastro['titulo']) && isset($dadosCadastro['codCategoria']) && isset($dadosCadastro['descricao']))
 		{
 			$retorno = cadastrarColecao($dadosCadastro);
 		}

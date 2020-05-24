@@ -101,27 +101,7 @@ $(document).ready(function(){
 	});
 
 	$('#arquivoImagem').change(function(){
-		if(this.files[0])
-		{
-			if(this.files[0]['type'].indexOf("image/") == 0)
-			{
-				let reader = new FileReader();
-
-				reader.onload = function(){
-					$('#imagemPreview > img').remove();
-
-					var image = new Image();
-					image.src = reader.result;
-					$('#imagemPreview').prepend(image);
-				}
-
-				reader.readAsDataURL(this.files[0]);
-			}
-			else
-			{
-				exibeNotificacao("alerta", 'O arquivo "' + this.files[0]['name'] + '" não é uma imagem.');
-			}
-		}
+		atualizaPreviewImagem(this.files[0]);
 	});
 
 	$("#deslogar").click(function(){

@@ -11,17 +11,46 @@ function buscarColecao($dadosBusca){
 		WHERE
 			1
 			[%1]
+			[%2]
 	";
 
-	$categoria = isset($dadosBusca['codCategoria']) ? "AND cod_categoria = ".bd_mysqli_real_escape_string($dadosBusca['codCategoria']) : "";
+	$categoria = $buscaColecoesUsuario = "";
+
+	if(isset($dadosBusca['codCategoria']))
+	{
+		$categoria = "AND cod_categoria = ".bd_mysqli_real_escape_string($dadosBusca['codCategoria']);
+	}
+
+	if(isset($dadosBusca['buscaColecoesUsuario']))
+	{
+		$buscaColecoesUsuario = "AND cod_colecao IN (
+														SELECT
+															cod_colecao
+														FROM
+															rel_usuarioxcolecao
+														WHERE
+															cod_usuario = ".bd_mysqli_real_escape_string($_SESSION['user_info']['cod_usuario'])."
+													)";
+	}
 
 	$sql = str_replace( 
-		array('[%1]'),
-		array($categoria),
+		array('[%1]', '[%2]'),
+		array($categoria, $buscaColecoesUsuario),
 		$sql
 	);
 
 	$retorno = bd_consulta($sql);
+
+	if(!empty($retorno) && isset($retorno[0]['imagem']))
+	{
+		foreach($retorno as $chave => $valor)
+		{
+			$retorno[$chave]['imagem'] =	!empty($valor['imagem']) 
+											? "data:".$valor['tipo_mime'].";base64,".base64_encode($valor['imagem']).""
+											: "";
+			unset($retorno[$chave]['tipo_mime']);
+		}
+	}
 
 	return $retorno;
 }
@@ -32,19 +61,50 @@ function buscarColecao($dadosBusca){
 function cadastrarColecao($colecao){
 	$retorno = array("resultado" => false, "log" => "Falha no cadastro de coleção");
 
+	$dadosCapa = preparaDadosImagem($colecao['capa']);
+
 	$sql = "
 		INSERT INTO
-			colecao(nome, descricao, cod_categoria)
+			colecao(nome, descricao, cod_categoria, tipo_mime, imagem)
 		VALUES (
-			'".bd_mysqli_real_escape_string($colecao['nome'])."',
+			'".bd_mysqli_real_escape_string($colecao['titulo'])."',
 			'".bd_mysqli_real_escape_string($colecao['descricao'])."',
-			'".bd_mysqli_real_escape_string($colecao['codCategoria'])."'
+			'".bd_mysqli_real_escape_string($colecao['codCategoria'])."',
+			'".bd_mysqli_real_escape_string($dadosCapa['tipo_mime'])."',
+			'".bd_mysqli_real_escape_string($dadosCapa['conteudo'])."'
 		)
 	";
 
-	if(bd_insere($sql) > 0)
+	$codColecao = bd_insere($sql);
+
+	if($codColecao > 0)
 	{
-		$retorno = relacionaColecaoUsuario($retorno);
+		$retorno = relacionaColecaoUsuario($codColecao);
+	}
+
+	return $retorno;
+}
+
+/**
+ * 
+ */
+function preparaDadosImagem($imagem){
+	$retorno = array('conteudo' => "", 'tipo_mime' => "");
+
+	if(!empty($imagem[0]['name']) && $imagem[0]['size'] > 0 && is_numeric(strpos($imagem[0]['type'], 'image/')))
+	{
+		$conteudo = "";
+		$handle = fopen($imagem[0]['tmp_name'], "r");
+
+		while(!feof($handle))
+		{
+			$conteudo .= fgets($handle);
+		}
+
+		fclose($handle);
+
+		$retorno['conteudo'] = $conteudo;
+		$retorno['tipo_mime'] = $imagem[0]['type'];
 	}
 
 	return $retorno;
@@ -66,7 +126,9 @@ function relacionaColecaoUsuario($codColecao){
 		)
 	";
 
-	if(bd_insere($sql) > 0 )
+	$resultadoRelacionamento = bd_insere($sql, true);
+
+	if($resultadoRelacionamento > 0)
 	{
 		$retorno['resultado'] = true;
 		$retorno['log'] = "";

@@ -3,12 +3,10 @@
 }
 
 .none{
-	display: none !important;
+	display: none;
 }
 
-/*--------------------Index--------------------*/
-#containerBtnNovaColecao{
-	margin-top: 15px;
+.centro{
 	text-align: center;
 }
 
@@ -50,5 +48,26 @@
 	margin-top: 40%;
 }
 
+/*--------------------Coleção--------------------*/
+#descricao{
+	height: 60px;
+}
 
+#capaColecao{
+	float: left;
+	max-height: 270px;
+}
 
+#capaColecao > #imagemPreview img{
+	width: 270px;
+	height: 270px;
+}
+
+#capaColecao > #imagemPreview div{
+	width: 260px;
+	height: 260px;
+}
+
+#capaColecao > #imagemPreview span{
+	margin-top: 45%;
+}

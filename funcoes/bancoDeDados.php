@@ -21,9 +21,10 @@ function bd_mysqli_real_escape_string($valor){
 /**
  * Responsável por executar as querys de inserção no banco de dados.
  * @param String $sql query que será executada para a inserção.
+ * @param Boolean $relacionamento informa se a inserção é para criação de um relacionamento entre entidades N-N
  * @return Int em caso de falha retorna 0 ou o erro na execução da query, em caso e sucesso retorna o ultimo id inserido.
  */
-function bd_insere($sql){
+function bd_insere($sql, $relacionamento = false){
 	$retorno = 0;
 	$conexao = bd_conecta();
 
@@ -35,6 +36,11 @@ function bd_insere($sql){
 	if(mysqli_query($conexao, $sql))
 	{
 		$retorno = mysqli_insert_id($conexao);
+
+		if($relacionamento)
+		{
+			$retorno = 1;
+		}
 	}
 	else
 	{

@@ -1,10 +1,10 @@
-<div class="swiper-container imagens-carousel">
+<div id="exibicaoColecoes" class="swiper-container imagens-carousel">
 	<div class="swiper-wrapper">
 		<div class="swiper-slide">
 			<div class="image-wrap">
 				<div class="image-info">
-					<h2 class="mb-3">Nature</h2>
-					<a href="html/single.html" class="btn btn-outline-white py-2 px-4">More Photos</a>
+					<h2 class="mb-3">Nova coleção</h2>
+					<a id="exibirTelaCadastroColecao" class="btn btn-outline-white py-2 px-4">Cadastrar</a>
 				</div>
 				<img src="imagens/imagemAdd.jpg" alt="Image">
 			</div>
@@ -16,3 +16,74 @@
 	<div class="swiper-button-next"></div>
 	<div class="swiper-scrollbar"></div>
 </div>
+
+<div id="cadastroNovaColecao" class="none">
+	<div class="row justify-content-center">
+		<div class="col-md-7">
+			<div class="row mb-5">
+				<div class="col-12">
+					<h2 class="site-section-heading text-center">Cadastrar nova coleção</h2>
+				</div>
+			</div>
+	
+			<div class="row mb-5">
+				<div class="col-12">
+					<div id="capaColecao" class="col-lg-3">
+						<div id="imagemPreview" class="row form-group"><img src="imagens/imagemAdd.jpg">
+						<div>
+							<span>
+								Adicionar capa
+							</span>
+						</div>
+						<input type="file" id="arquivoImagem" class="none">
+					</div>
+					</div>
+
+					<div class="col-lg-8 mb-5 ml-auto">
+						<form id="formColecao">
+							<div class="row form-group">
+								<div class="col-md-12">
+									<label class="text-black" >Título</label>
+									<input type="text" id="titulo" class="form-control">
+								</div>
+							</div>
+		
+							<div class="row form-group">
+								<div class="col-md-12">
+									<label class="text-black">Categoria</label>
+									<select id="listaCategoria" class="form-control">
+										<option value="">Selecione uma categoria...</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="row form-group">
+								<div class="col-md-12">
+									<label class="text-black">Descrição</label>
+									<textarea id="descricao" cols="30" rows="7" class="form-control"></textarea>
+								</div>
+							</div>
+						</form>
+					</div>
+
+					<div class="centro">
+						<input id="exibirColecao" type="button" value="Voltar" class="btn btn-primary text-white">
+						<input id="cadastrarColecao" type="button" value="Cadastrar" class="btn btn-primary text-white">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="templateExibicaoColecao" class="swiper-slide none">
+	<div class="image-wrap">
+		<div class="image-info">
+			<h2 class="mb-3 titulo">teste</h2>
+			<a class="btn btn-outline-white py-2 px-4">Visualizar</a>
+		</div>
+		<img src="">
+	</div>
+</div>
+
+<script src="javascript/colecao.js"></script>

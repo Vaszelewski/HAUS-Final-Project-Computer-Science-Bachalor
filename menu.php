@@ -4,7 +4,10 @@
 			<a href="index.php" class="text-black h2 mb-0">Haus</a>
 		</h1>
 	</div>
-
+<?php
+	if(!isset($_SESSION['user_info']))
+	{
+?>
 	<div class="col-10 col-md-6 d-none d-xl-block" data-aos="fade-down">
 		<nav class="site-navigation position-relative text-right text-lg-center" role="navigation">
 			<ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
@@ -63,10 +66,7 @@
 			</ul>
 		</nav>
 	</div>
-<?php
-	if(!isset($_SESSION['user_info']))
-	{
-?>
+
 	<div class="col-3 col-md-3 d-none d-xl-block" data-aos="fade-down">
 		<nav class="site-navigation position-relative text-right text-lg-center" role="navigation">
 			<ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
@@ -85,6 +85,16 @@
 	{
 		$displayName = strlen($_SESSION['user_info']['display_name']) > 0 ? $_SESSION['user_info']['display_name'] : $_SESSION['user_info']['nome'];
 ?>
+<div class="col-10 col-md-6 d-none d-xl-block" data-aos="fade-down">
+		<nav class="site-navigation position-relative text-right text-lg-center" role="navigation">
+			<ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
+				<li class="active">
+					<a href="?pag=colecao">Coleções</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+
 	<div class="col-3 col-md-3 d-none d-xl-block" data-aos="fade-down">
 		<nav class="site-navigation position-relative text-right text-lg-center" role="navigation">
 			<ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
