@@ -22,6 +22,11 @@ function cadastrarSuporte($dadosSuporte){
 	return $retorno;
 }
 
+/**
+ * Buscar Opções Suporte.
+ * @param Array $dadosOpcoesSuporte opções de suporte que o problema é referenciado
+ * @return String retorna uma lista de opçoes de suporte
+ */
 function buscaOpcoesSuporte($dadosOpcoesSuporte){
 	$sql = "
 		SELECT

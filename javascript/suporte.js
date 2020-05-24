@@ -1,7 +1,6 @@
 function cadastrarSuporte(){
 	let dadosSuporte = {
 		'codOpcao': $('#opcao').val(),
-		'codUsuario': $('#cod_usuario').val(),
 		'email': $('#email').val().trim(),
 		'assunto': $('#assunto').val().trim(),
 		'mensagem': $('#mensagem').val().trim()
