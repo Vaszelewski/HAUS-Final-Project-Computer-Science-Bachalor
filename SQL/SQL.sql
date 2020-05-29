@@ -25,4 +25,11 @@ GRANT SELECT, INSERT, UPDATE
 ON 
 	haus.usuario
 TO
-	public_haus@%;
+	public_haus;
+
+CREATE TABLE IF NOT EXISTS
+	haus.password_reset_temp(
+  		email varchar(250) NOT NULL,
+  		keyy varchar(250) NOT NULL,
+  		expDate datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
