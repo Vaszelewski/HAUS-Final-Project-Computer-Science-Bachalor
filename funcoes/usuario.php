@@ -241,3 +241,18 @@ function atualizaImagemUsuario($imagem){
 
 	return $retorno;
 }
+
+function atualizaSenha($dadoReset){
+	$sqll = "
+			UPDATE
+				usuario
+			SET
+				senha = '".encripta($dadoReset['senha'])."'
+			WHERE 
+				email LIKE '".bd_mysqli_real_escape_string($dadoReset['email'])."'
+			";
+	
+	$retorno = bd_atualiza($sqll);
+
+	return $retorno;
+}

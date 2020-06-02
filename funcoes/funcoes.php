@@ -44,3 +44,31 @@ function mapeaDadosRequest($dados, $chaves){
 function encripta($senha){
 	return password_hash($senha, PASSWORD_DEFAULT);
 }
+
+/**
+ * Função para deletar requisição de reset de senha
+ * @param String $dadoReset email da requisição a ser excluida
+ */
+function deletaRequisicao($dadoReset){
+	$deletaEmail = "
+			DELETE FROM altera_senha
+			WHERE 
+				email LIKE '".bd_mysqli_real_escape_string($dadoReset['email'])."'
+	";		
+	//ATUALIZAR COM A FUNÇÃO BD_EXCLUI() DEPOIS
+	bd_atualiza($deletaEmail);
+}
+
+function buscaRequisicao($dadoReset){
+	$sql = "
+			SELECT
+				data_expiracao, email
+			FROM
+				altera_senha
+			WHERE
+				chave LIKE '".bd_mysqli_real_escape_string($dadoReset['chave'])."'
+			";
+	$consulta = bd_consulta($sql);
+
+	return $consulta;
+}

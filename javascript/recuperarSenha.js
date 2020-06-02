@@ -2,23 +2,23 @@ function recuperarSenha(){
 	let dadoEmail = {
 		'email': $('#email').val().trim()
 	}
-
+	
 	$.ajax({
 		url: "ajax/envioEmailx.php",
 		method: "POST",
 		data: dadoEmail,
 		success: function(data){
-			if(data != '0'){
-				exibeNotificacao('sucesso', 'Usuário cadastrado com sucesso!')
+			if(data == 'true'){
+				exibeNotificacao('sucesso', 'Solicitação Realizada!')
 			}else{
-				exibeNotificacao('erro', 'E-mail já cadastrado.')
+				exibeNotificacao('erro', 'Email Inválido.')
 			}
 		}
 	});
 }
 
 $(document).ready(function(){
-	$('#recover').click(function(){
+	$('#recuperar').click(function(){
 		recuperarSenha();
 	});
 });

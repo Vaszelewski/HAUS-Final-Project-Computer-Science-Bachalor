@@ -28,8 +28,8 @@ TO
 	public_haus;
 
 CREATE TABLE IF NOT EXISTS
-	haus.password_reset_temp(
+	haus.altera_senha(
   		email varchar(250) NOT NULL,
-  		keyy varchar(250) NOT NULL,
-  		expDate datetime NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  		chave varchar(250) NOT NULL,
+  		data_expiracao datetime NOT NULL
+)

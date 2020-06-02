@@ -1,7 +1,7 @@
 <div class="row align-items-center marginMenu">
 	<div class="col-6 col-xl-3" data-aos="fade-down">
 		<h1 class="mb-0">
-			<a href="index.php" class="text-black h2 mb-0">Haus</a>
+			<a href="index.php" class="text-black h2 mb-0">HAUS</a>
 		</h1>
 	</div>
 
