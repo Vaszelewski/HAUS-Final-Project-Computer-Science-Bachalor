@@ -12,7 +12,7 @@
 
 		$sql = "
 			SELECT
-				COUNT(cod_usuario) AS total,nome
+				COUNT(cod_usuario) AS total,display_name
 			FROM
 				usuario
 			WHERE
@@ -35,17 +35,6 @@
 					'".bd_mysqli_real_escape_string($data_expiracao)."'
 				)";
 			bd_insere($sqll);
-
-			//$consulta = "
-			//	SELECT
-			//		nome
-			//	FROM
-			//		usuario
-			//	WHERE
-			//		email LIKE '".bd_mysqli_real_escape_string($dadoEmail['email'])."'
-			//";
-			//$nome = bd_consulta($consulta['nome']);
-			//echo json_encode($nome);
 
 			$mail = new PHPMailer();
 			$mail->isSMTP();
@@ -70,7 +59,7 @@
 						<div style=\"text-align:center\">
 							<div style=\"font-size: large;\">
 								<img data-original-height=\"94\" data-original-width=\"400\" src=\"https://1.bp.blogspot.com/-oXzvmm9bbu8/XtW1j1snBKI/AAAAAAAAK7c/5aVuUOOSbb0ClDmm_kUhEKOwFI1UVv5CQCLcBGAsYHQ/s320/logo.png\"/>
-								<h1>Olá ".$consulta[0]['nome']." </h1>
+								<h1>Olá ".$consulta[0]['display_name']." </h1>
 								<p>Recebemos uma solicitação para redefinir sua senha do HAUS.</p>
 								<p>Clique no botão para redefinição de senha a seguir:</p>
 							</div>
