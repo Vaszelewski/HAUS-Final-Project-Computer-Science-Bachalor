@@ -17,8 +17,7 @@ switch($_SERVER['REQUEST_METHOD'])
 
 	case 'POST':
 	{
-		$dadosRecebidos = preparaDadoRecebidos();
-		$dadosCadastro = mapeaDadosRequest($dadosRecebidos, array('nome'));
+		$dadosCadastro = mapeaDadosRequest($_POST, array('nome'));
 
 		$retorno = cadastrarCategoria($dadosCadastro);
 

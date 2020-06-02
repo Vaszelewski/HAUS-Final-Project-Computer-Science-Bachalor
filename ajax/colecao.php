@@ -17,11 +17,14 @@ switch($_SERVER['REQUEST_METHOD'])
 
 	case 'POST':
 	{
-		$dadosRecebidos = preparaDadoRecebidos();
-		$dadosCadastro = mapeaDadosRequest($dadosRecebidos, array('titulo', 'codCategoria', 'descricao'));
+		$dadosCadastro = mapeaDadosRequest($_POST, array('titulo', 'codCategoria', 'descricao', 'atualizacaoCapa', 'codColecao'));
 		$dadosCadastro['capa'] = isset($_FILES) ? $_FILES : null;
-		
-		if(isset($dadosCadastro['titulo']) && isset($dadosCadastro['codCategoria']) && isset($dadosCadastro['descricao']))
+
+		if(isset($dadosCadastro['atualizacaoCapa']))
+		{
+			$retorno = atualizaCapaColecao($dadosCadastro);
+		}
+		else
 		{
 			$retorno = cadastrarColecao($dadosCadastro);
 		}
@@ -33,15 +36,24 @@ switch($_SERVER['REQUEST_METHOD'])
 
 	case 'PATCH':
 	{
-		$dadosRecebidos = preparaDadoRecebidos();
-
-		$dadosRequisicao = mapeaDadosRequest($dadosRecebidos, array('nome', 'descricao', 'cod_categoria', 'privacidade'));
+		parse_str(file_get_contents('php://input'), $dadosRecebidos);
+		$dadosRequisicao = mapeaDadosRequest($dadosRecebidos, array('titulo', 'descricao', 'codCategoria', 'codColecao'));
 
 		$retorno = atualizaColecao($dadosRequisicao);
 
 		echo json_encode($retorno);
 
 		break;
+	}
+
+	case 'DELETE':
+	{
+		parse_str(file_get_contents('php://input'), $dadosRecebidos);
+
+		$dadosRequisicao = mapeaDadosRequest($dadosRecebidos, array('codColecao'));
+		$retorno = excluiColecao($dadosRequisicao['codColecao']);
+
+		echo json_encode($retorno);
 	}
 }
 

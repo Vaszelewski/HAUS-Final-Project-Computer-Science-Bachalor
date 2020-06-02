@@ -53,10 +53,10 @@ function bd_insere($sql, $relacionamento = false){
 /**
  * Responsável por executar as querys e atualização no banco de dados.
  * @param String $sql query que será executada para a atualização.
- * @return Int em caso de falha retorna 0 ou o erro na execução da query, em caso e sucesso retorna o numero de linhas afetadas.
+ * @return Boolean em caso de falha retorna false ou o erro na execução da query, em caso e sucesso retorna o true.
  */
 function bd_atualiza($sql){
-	$retorno = 0;
+	$retorno = false;
 	$conexao = bd_conecta();
 
 	if(!$conexao)
@@ -66,7 +66,7 @@ function bd_atualiza($sql){
 
 	if(mysqli_query($conexao, $sql))
 	{
-		$retorno = mysqli_affected_rows($conexao);
+		$retorno = true;
 	}
 	else
 	{

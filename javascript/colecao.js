@@ -1,4 +1,4 @@
-function buscaCategorias(){
+function buscaCategorias(Deferred){
 	$.ajax({
 		url: "ajax/categoria.php",
 		method: "GET",
@@ -11,6 +11,8 @@ function buscaCategorias(){
 					$('#listaCategoria').append('<option value="'+valor['cod_categoria']+'">'+valor['nome']+'</option>');
 				});
 			}
+
+			Deferred.resolve();
 		}
 	});
 }
@@ -28,8 +30,6 @@ function cadastrarColecao(dados){
 		formData.append(chave, valor);
 	});
 
-	console.log(JSON.stringify(formData));
-
 	$.ajax({
 		url: "ajax/colecao.php",
 		method: "POST",
@@ -38,99 +38,203 @@ function cadastrarColecao(dados){
 		processData: false,
 		contentType: false,
 		success: function(data){
-			console.log(data);
+			buscaColecoes();
+			exibirColecoes();
 		}
 	});
 }
 
 function buscaColecoes(){
-	let propriedadesSwiper = {
-		pagination: {
-			el: '.swiper-pagination'
-		},
-		navigation: {
-			nextEl: '.swiper-button-next',
-			prevEl: '.swiper-button-prev'
-		},
-		mousewheel: {
-			invert: false,
-			forceToAxis: true,
-			releaseOnEdges: true
-		},
-		freeMode: true,
-		spaceBetween: 30,
-		mousewheel: true,
-		pagination: {
-			el: '.swiper-pagination',
-			clickable: true
-		},
-		slidesPerView: 3,
-		breakpoints: {
-			668: {
-				slidesPerView: 1
-			},
-			1024: {
-				slidesPerView: 2 
-			}
-		},
-		spaceBetween: 20
-	};
-
-	let swiper = new Swiper ('.swiper-container', propriedadesSwiper);
-
 	$.ajax({
 		url: "ajax/colecao.php",
 		method: "GET",
 		data: {'parametros': '*', 'buscaColecoesUsuario': true},
 		dataType: 'JSON',
 		success: function(data){
+			$('.swiper-wrapper >').not(':first').remove();
+
 			$.each(data, function(chave, valor){
-				let exibicaoColecao = $('#templateExibicaoColecao').clone();
-				exibicaoColecao.removeClass('none');
-				exibicaoColecao.find('.titulo').html(valor['nome']);
-				exibicaoColecao.find('a').prop('id', valor['cod_colecao']);
-				exibicaoColecao.find('img').prop('src', valor['imagem']);
+				let templateColecao = $('#templateExibicaoColecao').clone();
+				templateColecao.removeClass('none').removeAttr('id');
+				templateColecao.find('.titulo').html(valor['titulo']);
+				templateColecao.find('img').prop('src', valor['imagem']);
 
-				let html = '\
-					<div class="swiper-slide" style="width: 432px; margin-right: 20px;">\
-						<div class="image-wrap">\
-							<div class="image-info">\
-								<h2 class="mb-3">'+valor['nome']+'</h2>\
-								<a id="'+valor['cod_colecao']+'" class="btn btn-outline-white py-2 px-4">More Photos</a>\
-							</div>\
-							<img src="'+valor['imagem']+'" alt="Image">\
-						</div>\
-					</div>';
+				templateColecao.find('.visualizar').click(function(){
+					exibirColecao(valor);
+				});
 
-				swiper.appendSlide(html);
+				templateColecao.find('.editar').click(function(){
+					exibirAtualizacaoColecao('atualizar', valor);
+				});
+
+				templateColecao.find('.excluir').click(function(){
+					excluirColecao(valor['cod_colecao'], templateColecao);
+				});
+
+				$('.swiper-wrapper').append(templateColecao);
 			});
 		}
 	});
 }
 
+function exibirColecoes(){
+	$('#exibicaoColecoes').show();
+	$('#cadastroAtualizacaoColecao').hide();
+
+	$('.formColecao .form-control').val('');
+	$('.imagemPreview img').prop('src', 'imagens/imagemAdd.jpg');
+	$('#arquivoImagem').val('');
+}
+
+function exibirColecao(colecao){
+	$('#exibicaoColecao').show();
+	$('#exibicaoColecoes').hide();
+
+	$('#exibicaoColecao').find('img').prop('src', colecao['imagem']);
+	$('#tituloColecao').html(colecao['titulo']);
+	$('#descricaoColecao p').html(colecao['descricao']);
+}
+
+function exibirAtualizacaoColecao(acao, colecao){
+	$('#exibicaoColecoes').hide();
+	$('#cadastroAtualizacaoColecao').show();
+
+	var aguaraCategorias = $.Deferred();
+
+	if(!($('#listaCategoria option').length > 1))
+	{
+		buscaCategorias(aguaraCategorias);
+	}
+	else
+	{
+		aguaraCategorias.resolve();
+	}
+
+	if(acao == 'atualizar')
+	{
+		$('#cadastrarColecao').hide();
+		$('#atualizarColecao').show();
+		$('#atualizarColecao').attr('codColecao', colecao['cod_colecao']);
+		$('#cadastroAtualizacaoColecao h2').html('Atualizar coleção');
+
+		$('#titulo').val(colecao['titulo']);
+		$('#descricao').val(colecao['descricao']);
+
+		$.when(aguaraCategorias).done(function(){
+			$('#listaCategoria').val(colecao['cod_categoria'])
+		});
+		
+		$('.imagemPreview img').prop('src', colecao['imagem']);
+	}
+	else
+	{
+		$('#cadastroAtualizacaoColecao h2').html('Cadastrar nova coleção');
+		$('#cadastrarColecao').show();
+		$('#atualizarColecao').hide();
+	}
+}
+
+function excluirColecao(codColecao, elemento){
+	$.ajax({
+		url: "ajax/colecao.php",
+		method: "DELETE",
+		data: {'codColecao': codColecao},
+		dataType: 'JSON',
+		success: function(data){
+			if(data)
+			{
+				exibeNotificacao('sucesso', 'Coleção excluida com sucesso.');
+				$(elemento).remove();
+			}
+			else
+			{
+				exibeNotificacao('erro', 'Falha na exclusão.');
+			}
+		}
+	});
+}
+
+function verificaCamposObrigatorios(){
+	if($('#titulo').val().trim() == "")
+	{
+		exibeNotificacao('alerta', 'O título deve ser preenchido.');
+		return false;
+	}
+	else if($('#listaCategoria').val() == "")
+	{
+		exibeNotificacao('alerta', 'Deve ser selecionado uma categoria.');
+		return false;
+	}
+	else if($('#descricao').val().trim() == "")
+	{
+		exibeNotificacao('alerta', 'A descrição deve ser preenchida.');
+		return false;
+	}
+
+	return true;
+}
+
+function atualizaColecao(dados){
+	var aguardaAtualizacao = $.Deferred();
+
+	$.ajax({
+		url: "ajax/colecao.php",
+		method: "PATCH",
+		data: dados,
+		dataType: 'JSON',
+		success: function(data){
+			if(data && $('#arquivoImagem').prop('files')[0] != undefined)
+			{
+				let formData = new FormData();
+
+				$.each($('#arquivoImagem').prop('files'), function(chave, valor){
+					formData.append(chave, valor);
+				});
+
+				dados['atualizacaoCapa'] = true;
+
+				$.each(dados, function(chave, valor){
+					formData.append(chave, valor);
+				});
+
+				$.ajax({
+					url: "ajax/colecao.php?",
+					method: "POST",
+					data: formData,
+					dataType: 'JSON',
+					processData: false,
+					contentType: false,
+					success: function(data){
+						aguardaAtualizacao.resolve();
+					}
+				});
+			}
+			else
+			{
+				aguardaAtualizacao.resolve();
+			}
+		}
+	});
+
+	$.when(aguardaAtualizacao).done(function(){
+		buscaColecoes();
+		exibirColecoes();
+	});
+}
+
+
 $(document).ready(function(){
 	buscaColecoes();
 
 	$('#exibirTelaCadastroColecao').click(function(){
-		$('#exibicaoColecoes').hide();
-		$('#cadastroNovaColecao').show();
-
-		if(!($('#listaCategoria option').length > 1))
-		{
-			buscaCategorias();
-		}
+		exibirAtualizacaoColecao('cadastrar');
 	});
 
-	$('#exibirColecao').click(function(){
-		$('#exibicaoColecoes').show();
-		$('#cadastroNovaColecao').hide();
-
-		$('#formColecao .form-control').val('');
-		$('#imagemPreview img').prop('src', 'imagens/imagemAdd.jpg')
-		$('#arquivoImagem').val('')
+	$('.voltarParaColecoes').click(function(){
+		exibirColecoes();
 	});
 
-	$('#imagemPreview > div').click(function(){
+	$('.imagemPreview > div').click(function(){
 		$('#arquivoImagem').click();
 	});
 
@@ -140,12 +244,29 @@ $(document).ready(function(){
 
 	$('#cadastrarColecao').click(function(){
 		let dadosCadastro = {
-			'titulo': $('#titulo').val(),
+			'titulo': $('#titulo').val().trim(),
 			'codCategoria': $('#listaCategoria').val(),
-			'descricao': $('#descricao').val(),
+			'descricao': $('#descricao').val().trim(),
 			'imagem': $('#arquivoImagem').prop('files')
 		}
 
-		cadastrarColecao(dadosCadastro);
+		if(verificaCamposObrigatorios())
+		{
+			cadastrarColecao(dadosCadastro);
+		}
+	});
+
+	$('#atualizarColecao').click(function(){
+		let dadosAtualizacao = {
+			'titulo': $('#titulo').val().trim(),
+			'codCategoria': $('#listaCategoria').val(),
+			'descricao': $('#descricao').val().trim(),
+			'codColecao': $('#atualizarColecao').attr('codColecao')
+		}
+
+		if(verificaCamposObrigatorios())
+		{
+			atualizaColecao(dadosAtualizacao);
+		}
 	});
 });

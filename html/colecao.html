@@ -17,19 +17,19 @@
 	<div class="swiper-scrollbar"></div>
 </div>
 
-<div id="cadastroNovaColecao" class="none">
+<div id="cadastroAtualizacaoColecao" class="none">
 	<div class="row justify-content-center">
 		<div class="col-md-7">
 			<div class="row mb-5">
 				<div class="col-12">
-					<h2 class="site-section-heading text-center">Cadastrar nova coleção</h2>
+					<h2 class="site-section-heading text-center"></h2>
 				</div>
 			</div>
 	
 			<div class="row mb-5">
 				<div class="col-12">
-					<div id="capaColecao" class="col-lg-3">
-						<div id="imagemPreview" class="row form-group"><img src="imagens/imagemAdd.jpg">
+					<div class="col-lg-3 adicionarCapaColecao">
+						<div class="row form-group imagemPreview"><img src="imagens/imagemAdd.jpg">
 						<div>
 							<span>
 								Adicionar capa
@@ -40,7 +40,7 @@
 					</div>
 
 					<div class="col-lg-8 mb-5 ml-auto">
-						<form id="formColecao">
+						<form class="formColecao">
 							<div class="row form-group">
 								<div class="col-md-12">
 									<label class="text-black" >Título</label>
@@ -67,8 +67,9 @@
 					</div>
 
 					<div class="centro">
-						<input id="exibirColecao" type="button" value="Voltar" class="btn btn-primary text-white">
-						<input id="cadastrarColecao" type="button" value="Cadastrar" class="btn btn-primary text-white">
+						<input type="button" value="Voltar" class="btn btn-primary text-white voltarParaColecoes">
+						<input id="cadastrarColecao" type="button" value="Cadastrar" class="btn btn-primary text-white none">
+						<input id="atualizarColecao" type="button" value="Atualizar" class="btn btn-primary text-white none">
 					</div>
 				</div>
 			</div>
@@ -76,11 +77,45 @@
 	</div>
 </div>
 
-<div id="templateExibicaoColecao" class="swiper-slide none">
+<div id="exibicaoColecao" class="none">
+	<div class="row justify-content-center">
+		<div class="col-md-7">
+			<div class="row mb-5">
+				<div class="col-12">
+					<h2 id="tituloColecao" class="site-section-heading text-center"></h2>
+				</div>
+			</div>
+	
+			<div class="row mb-5">
+				<div class="col-12">
+					<div class="exibicaoColecao">
+						<div class="row imagemPreview"><img src=""></div>
+					</div>
+				</div>
+
+				<div class="col-12">
+					<div>
+						<div id="descricaoColecao" class="row">
+							<p></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="templateExibicaoColecao" class="swiper-slide none" style="width: 432px; margin-right: 20px;">
 	<div class="image-wrap">
 		<div class="image-info">
-			<h2 class="mb-3 titulo">teste</h2>
-			<a class="btn btn-outline-white py-2 px-4">Visualizar</a>
+			<div>
+				<h2 class="mb-3 titulo"></h2>
+				<a class="btn btn-outline-white py-2 px-4 visualizar">Visualizar</a>
+			</div>
+			<div class="botoesAdministraColecao">
+				<a class="btn btn-outline-white py-2 px-4 editar">Editar</a>
+				<a class="btn btn-outline-white py-2 px-4 excluir">Excluir</a>
+			</div>
 		</div>
 		<img src="">
 	</div>

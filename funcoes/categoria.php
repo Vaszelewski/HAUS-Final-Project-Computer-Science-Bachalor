@@ -1,6 +1,8 @@
 <?php
 /**
- * 
+ * Responsável por buscar dados de categorias.
+ * @param Array $dadosBusca parametros para busca
+ * @return Array dados da busca
  */
 function buscaCategoria($dadosBusca){
 	$retorno = array("resultado" => false, "mensagem" => "Categoria não encontrada.", "dados" => array());
@@ -36,7 +38,11 @@ function buscaCategoria($dadosBusca){
 }
 
 /**
- * 
+ * Responsável por cadastrar categoria
+ * @param Array $categoria dados categoria
+ * @return Array 
+ * 	resultado: true em caso de sucesso ao cadastrar a categoria, se não false
+ * 	log: em caso e falha retorna a mensagem de erro
  */
 function cadastrarCategoria($categoria){
 	$retorno = array(
@@ -65,7 +71,9 @@ function cadastrarCategoria($categoria){
 }
 
 /**
- * 
+ * Verifica se uma categoria já existe no sistema
+ * @param String $nome informa o nome a categoria a ser verificada
+ * @return Boolean true em caso da categoria não existir, se não falses
  */
 function verificaExistenciaCategoria($nome){
 	$retorno = false;

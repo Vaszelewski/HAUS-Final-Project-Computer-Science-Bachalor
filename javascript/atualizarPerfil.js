@@ -65,7 +65,7 @@ function buscaImagemUsuario(){
 		success: function(data){
 			var image = new Image();
 			image.src = data;
-			$('#imagemPreview').prepend(image);
+			$('.imagemPreview').prepend(image);
 		}
 	});
 }
@@ -96,7 +96,7 @@ $(document).ready(function(){
 		atualizarDadosUsuario(dados);
 	});
 
-	$('#imagemPreview > div').click(function(){
+	$('.imagemPreview > div').click(function(){
 		$('#arquivoImagem').click();
 	});
 

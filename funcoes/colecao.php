@@ -1,6 +1,8 @@
 <?php
 /**
- * 
+ * Responsável por realizar as buscas nas coleções
+ * @param Array $dadosBusca lista de parametros a ser buscada
+ * @return Array retorna o resultado da pesquisa realizada.
  */
 function buscarColecao($dadosBusca){
 	$sql = "
@@ -56,37 +58,48 @@ function buscarColecao($dadosBusca){
 }
 
 /**
- * 
+ * Responsável por realizar o cadastro de novas coleções
+ * @param Array $colecao contem os dado que serão cadastrados referente a nova coleção.
+ * @return Array 
+ * 	resultado: informa se a insersão ocorreu com sucesso ou falha
+ * 	log: em caso de erro informa o erro ocorrido.
  */
 function cadastrarColecao($colecao){
-	$retorno = array("resultado" => false, "log" => "Falha no cadastro de coleção");
+	$retorno = array("resultado" => false, "log" => "Dados obrigátorios não enviados");
 
-	$dadosCapa = preparaDadosImagem($colecao['capa']);
-
-	$sql = "
-		INSERT INTO
-			colecao(nome, descricao, cod_categoria, tipo_mime, imagem)
-		VALUES (
-			'".bd_mysqli_real_escape_string($colecao['titulo'])."',
-			'".bd_mysqli_real_escape_string($colecao['descricao'])."',
-			'".bd_mysqli_real_escape_string($colecao['codCategoria'])."',
-			'".bd_mysqli_real_escape_string($dadosCapa['tipo_mime'])."',
-			'".bd_mysqli_real_escape_string($dadosCapa['conteudo'])."'
-		)
-	";
-
-	$codColecao = bd_insere($sql);
-
-	if($codColecao > 0)
+	if(isset($colecao['titulo']) && isset($colecao['codCategoria']) && isset($colecao['descricao']))
 	{
-		$retorno = relacionaColecaoUsuario($codColecao);
+		$dadosCapa = preparaDadosImagem($colecao['capa']);
+
+		$sql = "
+			INSERT INTO
+				colecao(titulo, descricao, cod_categoria, tipo_mime, imagem)
+			VALUES (
+				'".bd_mysqli_real_escape_string($colecao['titulo'])."',
+				'".bd_mysqli_real_escape_string($colecao['descricao'])."',
+				'".bd_mysqli_real_escape_string($colecao['codCategoria'])."',
+				'".bd_mysqli_real_escape_string($dadosCapa['tipo_mime'])."',
+				'".bd_mysqli_real_escape_string($dadosCapa['conteudo'])."'
+			)
+		";
+
+		$codColecao = bd_insere($sql);
+
+		if($codColecao > 0)
+		{
+			$retorno = relacionaColecaoUsuario($codColecao);
+		}
 	}
 
 	return $retorno;
 }
 
 /**
- * 
+ * Prepara os dados da imagem recebida para utilizada na em query sql.
+ * @param Array $imagem dados da imagem recebida
+ * @return Array
+ * 	conteudo: dados imagem para query
+ * 	tipo_mime: extensão da imagem
  */
 function preparaDadosImagem($imagem){
 	$retorno = array('conteudo' => "", 'tipo_mime' => "");
@@ -111,7 +124,11 @@ function preparaDadosImagem($imagem){
 }
 
 /**
- * 
+ * Responsável por vincular o usuário a coleção no ato da criação da coleção.
+ * @param Int $codColecao código a coleção recem criada
+ * @return Array
+ * 	resultado: informa se a associação foi feita com sucesso
+ * 	log: em caso de erro informa o erro ocorrido
  */
 function relacionaColecaoUsuario($codColecao){
 	$retorno = array("resultado" => false, "log" => "Falha ao relacionar usuário a coleção, coleção não criada.");
@@ -143,23 +160,60 @@ function relacionaColecaoUsuario($codColecao){
 }
 
 /**
- * 
+ * Responsável por realizar a exclusão de uma coleção
+ * @param Int $codColecao código da coleção que será excluida
+ * @return Boolean true em caso de sucesso na exclusão, se não false
  */
 function excluiColecao($codColecao){
-	$sql = "
-		DELETE FROM
-			colecao
-		WHERE
-			cod_colecao = ".bd_mysqli_real_escape_string($codColecao)."
-	";
+	$retorno = false;
 
-	bd_exclui($sql);
+	if(ehDonoColecao($codColecao))
+	{
+		$sql = "
+			DELETE FROM
+				colecao
+			WHERE
+				cod_colecao = ".bd_mysqli_real_escape_string($codColecao)."
+		";
+
+		$retorno = bd_exclui($sql);
+	}
+
+	return $retorno;
 }
 
 /**
- * 
+ * Verifica se o usuário logao no sistema é o dono da coleção.
+ * @param Int $codColecao código da coleção que será verificada
+ * @return Boolean retorna true caso o usuário seja o dono da coleção, se não false.
+ */
+function ehDonoColecao($codColecao){
+	$sql = "
+		SELECT
+			COUNT(*) as total
+		FROM
+			colecao
+			INNER JOIN
+				rel_usuarioxcolecao ON
+				colecao.cod_colecao = rel_usuarioxcolecao.cod_colecao
+		WHERE
+			colecao.cod_colecao = '".bd_mysqli_real_escape_string($codColecao)."' AND
+			rel_usuarioxcolecao.dono = '".bd_mysqli_real_escape_string($_SESSION['user_info']['cod_usuario'])."'
+	";
+
+	return bd_consulta($sql)[0]['total'] == "1" ? true : false;
+}
+
+/**
+ * Responsável por efetuar atualização dos dados e uma coleção.
+ * @param Array $novosDadosColecao dados recebidos para atualização.
+ * @return Array
+ * 	resultado: informa true caso a atualização tenha sucesso, se não false
+ * 	log: se ocorrer falha retorna a mensagem de erro
  */
 function atualizaColecao($novosDadosColecao){
+	$retorno = array("resultado" => false, "log" => "Falha na atualização.");
+
 	$sql = "
 		UPDATE
 			colecao
@@ -170,9 +224,9 @@ function atualizaColecao($novosDadosColecao){
 
 	$sqlSet = array();
 
-	if(isset($novosDadosColecao['nome']))
+	if(isset($novosDadosColecao['titulo']))
 	{
-		$sqlSet[] = "nome = '".bd_mysqli_real_escape_string($novosDadosColecao['nome'])."'";
+		$sqlSet[] = "titulo = '".bd_mysqli_real_escape_string($novosDadosColecao['titulo'])."'";
 	}
 
 	if(isset($novosDadosColecao['descricao']))
@@ -185,11 +239,6 @@ function atualizaColecao($novosDadosColecao){
 		$sqlSet[] = "cod_categoria = '".bd_mysqli_real_escape_string($novosDadosColecao['codCategoria'])."'";
 	}
 
-	if(isset($novosDadosColecao['privacidade']))
-	{
-		$sqlSet[] = "privacidade = '".bd_mysqli_real_escape_string($novosDadosColecao['privacidade'])."'";
-	}
-
 
 	$sql = str_replace(
 		'[%1]',
@@ -197,5 +246,52 @@ function atualizaColecao($novosDadosColecao){
 		$sql
 	);
 
-	return is_numeric(bd_atualiza($sql));
+	if(ehDonoColecao($novosDadosColecao['codColecao']))
+	{
+		if(bd_atualiza($sql))
+		{
+			$retorno['resultado'] = true;
+			$retorno['log'] = "";
+		}
+	}
+	else
+	{
+		$retorno['log'] = "Usuário não é dono da coleção";
+	}
+
+	return $retorno;
+}
+
+/**
+ * Responsável por atulizar a imagem de capa da coleção.
+ * @param Array $colecao dados da coleção
+ * @return Array
+ * 	resultado: informa true em caso de sucesso, se não false
+ * 	log: em caso e falha retorna uma mensagem de erro.
+ */
+function atualizaCapaColecao($colecao){
+	$retorno = array("resultado" => false, "log" => "Falha na alteração da capa");
+
+	if(isset($colecao['codColecao']) && isset($colecao['capa']))
+	{
+		$dadosCapa = preparaDadosImagem($colecao['capa']);
+
+		$sql = "
+			UPDATE
+				colecao
+			SET
+				imagem = '".bd_mysqli_real_escape_string($dadosCapa['conteudo'])."',
+				tipo_mime = '".bd_mysqli_real_escape_string($dadosCapa['tipo_mime'])."'
+			WHERE
+				cod_colecao = '".bd_mysqli_real_escape_string($colecao['codColecao'])."'
+		";
+
+		if(bd_atualiza($sql))
+		{
+			$retorno['resultado'] = true;
+			$retorno['log'] = "";
+		}
+	}
+
+	return $retorno;
 }

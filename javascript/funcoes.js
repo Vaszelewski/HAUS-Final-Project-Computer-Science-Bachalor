@@ -52,11 +52,11 @@ function atualizaPreviewImagem(file){
 			let reader = new FileReader();
 
 			reader.onload = function(){
-				$('#imagemPreview > img').remove();
+				$('.imagemPreview > img').remove();
 
 				var image = new Image();
 				image.src = reader.result;
-				$('#imagemPreview').prepend(image);
+				$('.imagemPreview').append(image);
 			}
 
 			reader.readAsDataURL(file);
