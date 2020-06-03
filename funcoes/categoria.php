@@ -47,7 +47,7 @@ function buscaCategoria($dadosBusca){
 function cadastrarCategoria($categoria){
 	$retorno = array(
 		'resultado' => false,
-		'mensagem' => ""
+		'mensagem' => "Falha ao cadastrar categoria."
 	);
 
 	$sql = "

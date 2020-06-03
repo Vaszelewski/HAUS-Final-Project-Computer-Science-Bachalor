@@ -60,9 +60,6 @@
 				<li>
 					<a href="?pag=sobre">Sobre</a>
 				</li>
-				<li>
-					<a href="?pag=contact">Contact</a>
-				</li>
 			</ul>
 		</nav>
 	</div>
@@ -90,6 +87,9 @@
 			<ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
 				<li class="active">
 					<a href="?pag=colecao">Coleções</a>
+				</li>
+				<li>
+					<a href="?pag=suporte">Suporte</a>
 				</li>
 			</ul>
 		</nav>

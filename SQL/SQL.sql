@@ -14,6 +14,34 @@ CREATE TABLE IF NOT EXISTS
 	);
 
 CREATE TABLE IF NOT EXISTS
+	haus.opcoes_suporte(
+		cod_opcao INT PRIMARY KEY,
+		texto VARCHAR(100) NOT NULL
+	);
+
+CREATE TABLE IF NOT EXISTS
+	haus.suporte(
+		cod_suporte INT PRIMARY KEY AUTO_INCREMENT,
+		cod_opcao INT NOT NULL,
+		cod_usuario INT NOT NULL,
+		email VARCHAR(100) NOT NULL,
+		assunto VARCHAR(100) NOT NULL,
+		mensagem VARCHAR(255) NOT NULL,
+
+		FOREIGN KEY (cod_opcao) REFERENCES opcoes_suporte(cod_opcao),
+		FOREIGN KEY (cod_usuario) REFERENCES usuario(cod_usuario)
+	);
+
+REPLACE INTO
+	haus.opcoes_suporte(cod_opcao, texto)
+VALUES
+	("1", "Spam ou Conteúdo Impróprio"),
+	("2", "Algo não está funcionando corretamente"),
+	("3", "Feedback Geral"),
+	("4", "Problema com Qualidade de Imagem"),
+	("5", "Não encontrou uma opção? Descreva abaixo detalhadamente");
+
+CREATE TABLE IF NOT EXISTS
 	haus.categoria(
 		cod_categoria INT PRIMARY KEY AUTO_INCREMENT,
 		nome VARCHAR(100) NOT NULL
@@ -41,6 +69,7 @@ CREATE TABLE IF NOT EXISTS
 		FOREIGN KEY (cod_usuario) REFERENCES usuario(cod_usuario) ON UPDATE NO ACTION ON DELETE CASCADE,
 		FOREIGN KEY (cod_colecao) REFERENCES colecao(cod_colecao) ON UPDATE NO ACTION ON DELETE CASCADE
 	);
+
 
 DROP USER public_haus;
 
