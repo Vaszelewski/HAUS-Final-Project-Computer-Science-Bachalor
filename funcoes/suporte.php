@@ -5,20 +5,29 @@
  * @return Int retorna o id do reporte criado.
  */
 function cadastrarSuporte($dadosSuporte){
-	$retorno = 0;
-	$sql = "
-		INSERT INTO
-			suporte(cod_opcao, cod_usuario, email, assunto, mensagem)
-		VALUES (
-			'".bd_mysqli_real_escape_string($dadosSuporte['codOpcao'])."',
-			'".bd_mysqli_real_escape_string($dadosSuporte['codUsuario'])."',
-			'".bd_mysqli_real_escape_string($dadosSuporte['email'])."',
-			'".bd_mysqli_real_escape_string($dadosSuporte['assunto'])."',
-			'".bd_mysqli_real_escape_string($dadosSuporte['mensagem'])."'
-		)
-	";
+	$retorno = array('resultado' => false, 'log' => "Usuário não autenticado.");
 
-	$retorno = bd_insere($sql);
+	if(isset($_SESSION['user_info'])){
+		$sql = "
+			INSERT INTO
+				suporte(cod_opcao, cod_usuario, email, assunto, mensagem)
+			VALUES (
+				'".bd_mysqli_real_escape_string($dadosSuporte['codOpcao'])."',
+				'".bd_mysqli_real_escape_string($_SESSION['user_info']['cod_usuario'])."',
+				'".bd_mysqli_real_escape_string($dadosSuporte['email'])."',
+				'".bd_mysqli_real_escape_string($dadosSuporte['assunto'])."',
+				'".bd_mysqli_real_escape_string($dadosSuporte['mensagem'])."'
+			)
+		";
+
+		$cadastraSuporte = bd_insere($sql);
+
+		if(is_numeric($cadastraSuporte) && $cadastraSuporte != 0){
+			$retorno['resultado'] = true;
+			$retorno['log'] = "";
+		}
+	}
+
 	return $retorno;
 }
 
