@@ -37,7 +37,7 @@ function buscaDadosUsuario($dadosBusca){
  */
 function cadastrarUsuario($dadosCadastro){
 	$retorno = 0;
-	
+
 	$sql = "
 		INSERT INTO
 			usuario(nome, sobrenome, email, senha)
@@ -154,7 +154,7 @@ function atualizaDadosUsuario($novosDadosUsuario){
 		$sql
 	);
 
-	$retorno = is_numeric(bd_atualiza($sql));
+	$retorno = bd_atualiza($sql);
 
 	if($retorno)
 	{

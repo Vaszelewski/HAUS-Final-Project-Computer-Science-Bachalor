@@ -43,3 +43,27 @@ function buscaCookie(nome){
 	}
 	return "";
 }
+
+function atualizaPreviewImagem(file){
+	if(file)
+	{
+		if(file['type'].indexOf("image/") == 0)
+		{
+			let reader = new FileReader();
+
+			reader.onload = function(){
+				$('.imagemPreview > img').remove();
+
+				var image = new Image();
+				image.src = reader.result;
+				$('.imagemPreview').append(image);
+			}
+
+			reader.readAsDataURL(file);
+		}
+		else
+		{
+			exibeNotificacao("alerta", 'O arquivo "' + file['name'] + '" não é uma imagem.');
+		}
+	}
+}

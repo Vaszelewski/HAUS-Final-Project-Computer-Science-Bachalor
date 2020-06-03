@@ -3,12 +3,12 @@ CREATE DATABASE IF NOT EXISTS haus;
 CREATE TABLE IF NOT EXISTS
 	haus.usuario(
 		cod_usuario INT PRIMARY KEY AUTO_INCREMENT,
-		nome VARCHAR(50),
-		sobrenome VARCHAR(100),
+		nome VARCHAR(50) NOT NULL,
+		sobrenome VARCHAR(100) NOT NULL,
 		display_name VARCHAR(50) NULL,
-		email VARCHAR(50),
+		email VARCHAR(50) NOT NULL,
 		descricao VARCHAR(255) NULL,
-		senha TEXT,
+		senha TEXT NOT NULL,
 		tipo_mime VARCHAR(50) NULL DEFAULT NULL,
 		imagem MEDIUMBLOB NULL DEFAULT NULL
 	);
@@ -28,7 +28,8 @@ CREATE TABLE IF NOT EXISTS
 		assunto VARCHAR(100) NOT NULL,
 		mensagem VARCHAR(255) NOT NULL,
 
-		FOREIGN KEY (cod_opcao) REFERENCES opcoes_suporte(cod_opcao)
+		FOREIGN KEY (cod_opcao) REFERENCES opcoes_suporte(cod_opcao),
+		FOREIGN KEY (cod_usuario) REFERENCES usuario(cod_usuario)
 	);
 
 REPLACE INTO
@@ -39,6 +40,36 @@ VALUES
 	("3", "Feedback Geral"),
 	("4", "Problema com Qualidade de Imagem"),
 	("5", "Não encontrou uma opção? Descreva abaixo detalhadamente");
+
+CREATE TABLE IF NOT EXISTS
+	haus.categoria(
+		cod_categoria INT PRIMARY KEY AUTO_INCREMENT,
+		nome VARCHAR(100) NOT NULL
+	);
+
+CREATE TABLE IF NOT EXISTS
+	haus.colecao(
+		cod_colecao INT PRIMARY KEY AUTO_INCREMENT,
+		titulo VARCHAR(100) NOT NULL,
+		descricao VARCHAR(255) NULL,
+		cod_categoria INT NOT NULL,
+		tipo_mime VARCHAR(50) NULL DEFAULT NULL,
+		imagem LONGBLOB NULL DEFAULT NULL,
+
+		FOREIGN KEY (cod_categoria) REFERENCES categoria(cod_categoria) ON UPDATE NO ACTION ON DELETE NO ACTION
+	);
+
+CREATE TABLE IF NOT EXISTS
+	haus.rel_usuarioxcolecao(
+		cod_usuario INT NOT NULL,
+		cod_colecao INT NOT NULL,
+		dono INT NOT NULL,
+		moderador INT DEFAULT NULL,
+
+		FOREIGN KEY (cod_usuario) REFERENCES usuario(cod_usuario) ON UPDATE NO ACTION ON DELETE CASCADE,
+		FOREIGN KEY (cod_colecao) REFERENCES colecao(cod_colecao) ON UPDATE NO ACTION ON DELETE CASCADE
+	);
+
 
 DROP USER public_haus;
 

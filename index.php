@@ -49,7 +49,7 @@
 			<header class="site-navbar py-3" role="banner">
 				<div class="container-fluid">
 					<?php
-						require_once('funcoes/menu.php');
+						require_once('menu.php');
 					?>
 				</div>
 			</header>

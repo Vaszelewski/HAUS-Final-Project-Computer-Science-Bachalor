@@ -4,31 +4,6 @@ require_once('../funcoes/usuario.php');
 
 switch($_SERVER['REQUEST_METHOD'])
 {
-	case 'POST':
-	{
-		$dadosCadastro = mapeaDadosRequest($_POST, array('nome', 'sobrenome', 'email', 'senha', 'deslogar'));
-		$atualizaçãoImagem = isset($_FILES) ? $_FILES : null;
-
-		if(count($atualizaçãoImagem))
-		{
-			$retorno = atualizaImagemUsuario($atualizaçãoImagem);
-		}
-		else if($dadosCadastro['deslogar'] == "true")
-		{
-			session_destroy();
-			echo true;
-			break;
-		}
-		else
-		{
-			$retorno = cadastrarUsuario($dadosCadastro);
-		}
-
-		echo json_encode($retorno);
-
-		break;
-	}
-
 	case 'GET':
 	{
 		$dadosRequisicao = mapeaDadosRequest($_GET, array('parametros', 'nome', 'sobrenome', 'email', 'senha', 'codUsuario', 'imagemUsuario'));
@@ -49,6 +24,31 @@ switch($_SERVER['REQUEST_METHOD'])
 			}
 
 			$retorno = buscaDadosUsuario($dadosRequisicao);
+		}
+
+		echo json_encode($retorno);
+
+		break;
+	}
+
+	case 'POST':
+	{
+		$dadosCadastro = mapeaDadosRequest($_POST, array('nome', 'sobrenome', 'email', 'senha', 'deslogar'));
+		$atualizaçãoImagem = isset($_FILES) ? $_FILES : null;
+
+		if(count($atualizaçãoImagem))
+		{
+			$retorno = atualizaImagemUsuario($atualizaçãoImagem);
+		}
+		else if($dadosCadastro['deslogar'] == "true")
+		{
+			session_destroy();
+			echo true;
+			break;
+		}
+		else
+		{
+			$retorno = cadastrarUsuario($dadosCadastro);
 		}
 
 		echo json_encode($retorno);

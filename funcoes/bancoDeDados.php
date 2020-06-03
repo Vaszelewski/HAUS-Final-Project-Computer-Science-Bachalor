@@ -21,9 +21,10 @@ function bd_mysqli_real_escape_string($valor){
 /**
  * Responsável por executar as querys de inserção no banco de dados.
  * @param String $sql query que será executada para a inserção.
+ * @param Boolean $relacionamento informa se a inserção é para criação de um relacionamento entre entidades N-N
  * @return Int em caso de falha retorna 0 ou o erro na execução da query, em caso e sucesso retorna o ultimo id inserido.
  */
-function bd_insere($sql){
+function bd_insere($sql, $relacionamento = false){
 	$retorno = 0;
 	$conexao = bd_conecta();
 
@@ -35,6 +36,11 @@ function bd_insere($sql){
 	if(mysqli_query($conexao, $sql))
 	{
 		$retorno = mysqli_insert_id($conexao);
+
+		if($relacionamento)
+		{
+			$retorno = 1;
+		}
 	}
 	else
 	{
@@ -47,10 +53,10 @@ function bd_insere($sql){
 /**
  * Responsável por executar as querys e atualização no banco de dados.
  * @param String $sql query que será executada para a atualização.
- * @return Int em caso de falha retorna 0 ou o erro na execução da query, em caso e sucesso retorna o numero de linhas afetadas.
+ * @return Boolean em caso de falha retorna false ou o erro na execução da query, em caso e sucesso retorna o true.
  */
 function bd_atualiza($sql){
-	$retorno = 0;
+	$retorno = false;
 	$conexao = bd_conecta();
 
 	if(!$conexao)
@@ -60,7 +66,7 @@ function bd_atualiza($sql){
 
 	if(mysqli_query($conexao, $sql))
 	{
-		$retorno = mysqli_affected_rows($conexao);
+		$retorno = true;
 	}
 	else
 	{
@@ -100,6 +106,28 @@ function bd_consulta($sql){
 	return $retorno;
 }
 
-function bd_exclui(){
+/**
+ * Responsável por executar as querys de exclusão no banco de dados.
+ * @param String $sql query que será executada para a exclusão.
+ * @return Int em caso de falha retorna false ou o erro na execução da query, em caso e sucesso retorna true.
+ */
+function bd_exclui($sql){
+	$retorno = false;
+	$conexao = bd_conecta();
 
+	if(!$conexao)
+	{
+		return $retorno;
+	}
+
+	if(mysqli_query($conexao, $sql))
+	{
+		$retorno = true;
+	}
+	else
+	{
+		$retorno = mysqli_error($conexao);
+	}
+
+	return $retorno;
 }

@@ -3,26 +3,31 @@
 }
 
 .none{
-	display: none !important;
+	display: none;
 }
 
+.centro{
+	text-align: center;
+}
+
+/*--------------------Altualiza perfil--------------------*/
 #miniaturaUsuario{
 	border-radius: 50%;
 	max-width: 60px;
 }
 
-#imagemPreview{
+.imagemPreview{
 	justify-content: center;
 	margin-bottom: 70px;
 }
 
-#imagemPreview img{
+.imagemPreview img{
 	border: 5px solid #56555552;
 	width: 140px;
 	height: 140px;
 }
 
-#imagemPreview div{
+.imagemPreview div{
 	position: absolute;
 	background-color: black;
 	width: 130px;
@@ -34,14 +39,58 @@
 	cursor: pointer;
 }
 
-#imagemPreview div:hover{
+.imagemPreview div:hover{
 	opacity: 0.5;
 }
 
-#imagemPreview span{
+.imagemPreview span{
 	display: inline-block;
 	margin-top: 40%;
 }
 
+/*--------------------Coleção--------------------*/
+#descricao{
+	height: 60px;
+}
 
+.adicionarCapaColecao{
+	float: left;
+	max-height: 270px;
+}
 
+.adicionarCapaColecao > .imagemPreview img{
+	width: 270px;
+	height: 270px;
+}
+
+.adicionarCapaColecao > .imagemPreview div{
+	width: 260px;
+	height: 260px;
+}
+
+.adicionarCapaColecao > .imagemPreview span{
+	margin-top: 45%;
+}
+
+.exibicaoColecao > .imagemPreview img{
+	width: 270px;
+	height: 270px;
+}
+
+.exibicaoColecao > .imagemPreview div{
+	width: 260px;
+	height: 260px;
+}
+
+#descricaoColecao p{
+	width: 100%;
+	text-align: center;
+}
+
+.botoesAdministraColecao{
+	margin-top: 3px;
+}
+
+.botoesAdministraColecao a{
+	width: 100px;
+}
