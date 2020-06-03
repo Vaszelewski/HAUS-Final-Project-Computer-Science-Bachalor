@@ -13,6 +13,33 @@ CREATE TABLE IF NOT EXISTS
 		imagem MEDIUMBLOB NULL DEFAULT NULL
 	);
 
+CREATE TABLE IF NOT EXISTS
+	haus.opcoes_suporte(
+		cod_opcao INT PRIMARY KEY,
+		texto VARCHAR(100) NOT NULL
+	);
+
+CREATE TABLE IF NOT EXISTS
+	haus.suporte(
+		cod_suporte INT PRIMARY KEY AUTO_INCREMENT,
+		cod_opcao INT NOT NULL,
+		cod_usuario INT NOT NULL,
+		email VARCHAR(100) NOT NULL,
+		assunto VARCHAR(100) NOT NULL,
+		mensagem VARCHAR(255) NOT NULL,
+
+		FOREIGN KEY (cod_opcao) REFERENCES opcoes_suporte(cod_opcao)
+	);
+
+REPLACE INTO
+	haus.opcoes_suporte(cod_opcao, texto)
+VALUES
+	("1", "Spam ou Conteúdo Impróprio"),
+	("2", "Algo não está funcionando corretamente"),
+	("3", "Feedback Geral"),
+	("4", "Problema com Qualidade de Imagem"),
+	("5", "Não encontrou uma opção? Descreva abaixo detalhadamente");
+
 DROP USER public_haus;
 
 GRANT SELECT

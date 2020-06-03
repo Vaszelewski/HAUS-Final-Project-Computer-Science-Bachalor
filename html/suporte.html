@@ -1,0 +1,54 @@
+<div class="row justify-content-center">
+	<div class="col-md-7">
+		<div class="row mb-5">
+			<div class="col-12">
+				<h2 class="site-section-heading text-center">Suporte</h2>
+			</div>
+		</div>
+
+		<div class="row mb-5">
+			<div class="col-12">
+				<form action="#">
+					<div align="left-center">
+						<label class="text-black">Problema*</label>
+						<select class="form-control" id="opcao" required>
+							<option value="0" selected>Selecione um problema</option>
+					 	</select>
+					  	</p>
+					  	<br>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label class="text-black" for="email">Email*</label>
+							<input type="email" id="email" class="form-control" required>
+						</div>
+					</div>
+
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label class="text-black" for="assunto">Título do Assunto*</label>
+							<input type="assunto" id="assunto" class="form-control" required>
+						</div>
+					</div>
+
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label class="text-black" for="mensagem">Mensagem*</label>
+							<textarea name="mensagem" id="mensagem" cols="30" rows="4" class="form-control"
+								placeholder="Descreva aqui sua mensagem..." required></textarea>
+						</div>
+					</div>
+
+					<div class="row form-group">
+						<div class="col-md-12">
+							<p>* Campos Obrigatórios</p>
+							<input id="acionarSuporte" type="button" value="Enviar Mensagem" class="btn btn-primary py-2 px-4 text-white">
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script src="javascript/suporte.js"></script>
