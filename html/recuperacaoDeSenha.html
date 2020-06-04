@@ -1,0 +1,52 @@
+<div class="row justify-content-center">
+	<div class="col-md-7">
+		<div class="row mb-5">
+			<div class="col-12">
+				<h2 class="site-section-heading text-center">Recuperar Senha</h2>
+			</div>
+		</div>
+
+		<div class="row mb-5">
+			<div id="enviaEmail" class="col-12">
+				<form action="#">
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label class="text-black" for="email">Informe seu email</label>
+							<input type="email" id="email" name="email" class="form-control">
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-12">
+							<input type="button" id="recuperar" value="Recuperar" class="btn btn-primary py-2 px-4 text-white"/>
+						</div>
+					</div>
+				</form>
+			</div>
+
+			<div id="recuperaSenha" class="col-12">
+				<form action="#">
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label class="text-black" for="senha">Nova Senha</label>
+							<input type="password" id="senha" class="form-control" required />
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-12">
+							<label class="text-black" for="senha2">Repita a Nova Senha</label>
+							<input type="password" id="senha2" class="form-control" required/>
+						</div>
+					</div>
+					<div class="row form-group">
+						<div class="col-md-12">
+							<input id="altera" type="button" value="Alterar Senha" class="btn btn-primary py-2 px-4 text-white">
+						</div>
+					</div>
+				</form>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<script src="javascript/recuperacaoDeSenha.js"></script>

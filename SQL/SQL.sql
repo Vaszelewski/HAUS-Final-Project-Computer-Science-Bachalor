@@ -83,4 +83,11 @@ GRANT SELECT, INSERT, UPDATE
 ON 
 	haus.usuario
 TO
-	public_haus@%;
+	public_haus;
+
+CREATE TABLE IF NOT EXISTS
+	haus.altera_senha(
+  		email varchar(50) NOT NULL,
+  		chave varchar(250) NOT NULL,
+  		data_expiracao datetime NOT NULL
+)

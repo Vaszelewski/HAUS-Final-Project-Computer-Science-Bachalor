@@ -12,7 +12,7 @@ function autenticarUsuario(){
 			if(data == 'true'){
 				window.location.replace(window.location.origin + window.location.pathname);
 			}else{
-				exibeNotificacao('erro', 'Credenciais Invalidas.')
+				exibeNotificacao('erro', 'Email ou Senha inválidos.')
 			}
 		}
 	});
