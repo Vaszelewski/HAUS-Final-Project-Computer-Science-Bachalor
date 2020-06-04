@@ -7,7 +7,55 @@
 	use PHPMailer\PHPMailer\SMTP;
 	use PHPMailer\PHPMailer\Exception;
 
-	function enviarEmaill($dadoEmail){
+
+	function deletaRequisicao($dadoReset){
+		$deletaEmail = "
+				DELETE FROM altera_senha
+				WHERE 
+					email LIKE '".bd_mysqli_real_escape_string($dadoReset['email'])."'
+		";		
+		//ATUALIZAR COM A FUNÇÃO BD_EXCLUI() DEPOIS
+		bd_atualiza($deletaEmail);
+	}
+
+	function buscaRequisicao($dadoReset){
+		$sql = "
+				SELECT
+					data_expiracao, email
+				FROM
+					altera_senha
+				WHERE
+					chave LIKE '".bd_mysqli_real_escape_string($dadoReset['chave'])."'
+				";
+		$consulta = bd_consulta($sql);
+
+		return $consulta;
+	}
+
+	function alteraSenha($dadoReset){
+		$retorno = false;
+		$atualData = date("Y-m-d H:i:s");
+
+		$consulta = buscaRequisicao($dadoReset);
+
+		if(!empty($consulta) && $dadoReset['email'] == $consulta[0]['email']){
+
+			if($atualData <= $consulta[0]['data_expiracao']){
+				
+				$retorno = atualizaSenha($dadoReset);
+				deletaRequisicao($dadoReset);
+
+			}else{
+				$retorno = false;
+			}
+		}else{
+			$retorno = false;
+		}
+	return $retorno;
+	}
+
+
+	function enviarEmail($dadoEmail){
 		$retorno = false;
 
 		$sql = "
@@ -54,7 +102,10 @@
 			$mail->setFrom("noreply@haus.com");
 			$mail->FromName = ("HAUS - Casa do Colecionador");
 			$variavel = "
-				<html>
+				<html lang=\"pt-br\">
+					<head>
+						<meta charset=\"utf-8\">
+					</head>
 					<body>
 						<div style=\"text-align:center\">
 							<div style=\"font-size: large;\">
@@ -65,14 +116,14 @@
 							</div>
 
 							<div style=\"font-size: small;\">
-								<a href=\"".$_SERVER['HTTP_ORIGIN']."/haus/index.php?pag=resetSenha&chave=".
-								$chave."&email=".$dadoEmail['email']."&acao=reset\"><button 
+								<a href=\"".$_SERVER['HTTP_ORIGIN']."/haus/index.php?pag=recuperacaoDeSenha&chave=".
+								$chave."&email=".$dadoEmail['email']."&acao=alterarSenha\"><button 
 								style=\"font-family: 'Josefin Sans', sans-serif; background: #20c997; padding: 15px; cursor: pointer; color: #fff; border: none; font-size: 15px;\">Alterar Senha</button></a>
 							</div>
 							<div style=\"font-size: large;\">
 								<p>Caso o botão não funcione, copie e cole o endereço abaixo no seu navegador de Internet.</p>
-								".$_SERVER['HTTP_ORIGIN']."/haus/index.php?pag=resetSenha&chave=".
-								$chave."&email=".$dadoEmail['email']."&acao=reset
+								".$_SERVER['HTTP_ORIGIN']."/haus/index.php?pag=recuperacaoDeSenha&chave=".
+								$chave."&email=".$dadoEmail['email']."&acao=alterarSenha
 								<br>
 								<p>Este link irá expirar após 24 horas por questões de segurança.</p><br>
 								<br>

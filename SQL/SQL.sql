@@ -29,7 +29,7 @@ TO
 
 CREATE TABLE IF NOT EXISTS
 	haus.altera_senha(
-  		email varchar(250) NOT NULL,
+  		email varchar(50) NOT NULL,
   		chave varchar(250) NOT NULL,
   		data_expiracao datetime NOT NULL
 )
