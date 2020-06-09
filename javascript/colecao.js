@@ -11,8 +11,25 @@ function buscaCategorias(Deferred){
 					$('#listaCategoria').append('<option value="'+valor['cod_categoria']+'">'+valor['nome']+'</option>');
 				});
 			}
-
 			Deferred.resolve();
+		}
+	});
+}
+
+function cadastrarCategoria(){
+	let dadosCadastro = {
+		'nome': $('#nome').val().trim()
+	}
+	$.ajax({
+		url: "ajax/categoria.php",
+		method: "POST",
+		data: dadosCadastro,
+		success: function(data){
+			if(data == 'true'){
+				exibeNotificacao('sucesso', 'Categoria cadastrada com sucesso!')
+			}else{
+				exibeNotificacao('erro', 'Categoria já cadastrada.')
+			}
 		}
 	});
 }
@@ -269,4 +286,12 @@ $(document).ready(function(){
 			atualizaColecao(dadosAtualizacao);
 		}
 	});
+
+	$('#cadastrarCategoria').click(function(){
+		cadastrarCategoria();
+		var aguaraCategorias = $.Deferred();
+		$('#listaCategoria option').remove();
+		buscaCategorias(aguaraCategorias);
+	});
+
 });

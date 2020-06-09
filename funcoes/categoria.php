@@ -6,7 +6,6 @@
  */
 function buscaCategoria($dadosBusca){
 	$retorno = array("resultado" => false, "mensagem" => "Categoria não encontrada.", "dados" => array());
-	
 	$sql = "
 		SELECT
 			".bd_mysqli_real_escape_string($dadosBusca['parametros'])."
@@ -16,7 +15,6 @@ function buscaCategoria($dadosBusca){
 			1
 			[%1]
 	";
-
 	$nome = isset($dadosBusca['nome']) ? "AND nome LIKE '".bd_mysqli_real_escape_string($dadosBusca['nome'])."'" : "";
 
 	$sql = str_replace(
@@ -26,6 +24,7 @@ function buscaCategoria($dadosBusca){
 	);
 
 	$dadosBusca = bd_consulta($sql);
+	
 
 	if(is_array($dadosBusca))
 	{
@@ -45,10 +44,10 @@ function buscaCategoria($dadosBusca){
  * 	log: em caso e falha retorna a mensagem de erro
  */
 function cadastrarCategoria($categoria){
-	$retorno = array(
-		'resultado' => false,
-		'mensagem' => "Falha ao cadastrar categoria."
-	);
+	//$retorno = array(
+	//	'resultado' => false,
+	//	'mensagem' => "Falha ao cadastrar categoria."
+	//);
 
 	$sql = "
 		INSERT INTO
@@ -60,13 +59,13 @@ function cadastrarCategoria($categoria){
 
 	if(verificaExistenciaCategoria($categoria['nome']))
 	{
-		$retorno['resultado'] = bd_insere($sql);
+		bd_insere($sql);
+		$retorno = true;
 	}
 	else
 	{
-		$retorno['mensagem'] = "Categoria já existe.";
+		$retorno = false;
 	}
-
 	return $retorno;
 }
 
