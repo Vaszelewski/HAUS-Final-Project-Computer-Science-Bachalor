@@ -14,6 +14,7 @@
 #miniaturaUsuario{
 	border-radius: 50%;
 	max-width: 60px;
+	margin-right: 0px;
 }
 
 .imagemPreview{
@@ -93,4 +94,8 @@
 
 .botoesAdministraColecao a{
 	width: 100px;
+}
+
+.modal-footer div{
+	cursor: pointer;
 }
