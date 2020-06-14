@@ -94,3 +94,37 @@
 .botoesAdministraColecao a{
 	width: 100px;
 }
+
+.visualizar:hover,
+.editar:hover,
+.excluir:hover,
+#exibirTelaCadastroColecao:hover{
+	color: black !important;
+}
+
+/*--------------------Item--------------------*/
+.botaoContainer{
+	width: 100%;
+}
+
+#descricaoItem{
+	height: 60px;
+}
+
+.bootbox-body .imagemPreview{
+	margin-bottom: 0px;
+}
+
+.bootbox-body .imagemPreview span{
+	display: inline-block;
+	margin-top: 28%;
+}
+
+#exibicaoColecao .imagemPreview{
+	margin-bottom: 20px;
+}
+
+#exibicaoColecao #lightgallery{
+	margin-top: 35px;
+}
+

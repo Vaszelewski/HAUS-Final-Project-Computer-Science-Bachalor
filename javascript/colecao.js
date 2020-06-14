@@ -93,6 +93,8 @@ function exibirColecao(colecao){
 	$('#exibicaoColecao').find('img').prop('src', colecao['imagem']);
 	$('#tituloColecao').html(colecao['titulo']);
 	$('#descricaoColecao p').html(colecao['descricao']);
+
+	carregarItensColecao(colecao['cod_colecao']);
 }
 
 function exibirAtualizacaoColecao(acao, colecao){
@@ -239,7 +241,7 @@ $(document).ready(function(){
 	});
 
 	$('#arquivoImagem').change(function(){
-		atualizaPreviewImagem(this.files[0]);
+		atualizaPreviewImagem(this.files[0], ".adicionarCapaColecao");
 	});
 
 	$('#cadastrarColecao').click(function(){

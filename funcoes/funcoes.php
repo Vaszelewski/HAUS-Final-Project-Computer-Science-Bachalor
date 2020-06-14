@@ -44,3 +44,32 @@ function mapeaDadosRequest($dados, $chaves){
 function encripta($senha){
 	return password_hash($senha, PASSWORD_DEFAULT);
 }
+
+/**
+ * Prepara os dados da imagem recebida para utilizar em query sql.
+ * @param Array $imagem dados da imagem recebida
+ * @return Array
+ * 	conteudo: dados imagem para query
+ * 	tipo_mime: extensão da imagem
+ */
+function preparaDadosImagem($imagem){
+	$retorno = array('conteudo' => "", 'tipo_mime' => "");
+
+	if(!empty($imagem[0]['name']) && $imagem[0]['size'] > 0 && is_numeric(strpos($imagem[0]['type'], 'image/')))
+	{
+		$conteudo = "";
+		$handle = fopen($imagem[0]['tmp_name'], "r");
+
+		while(!feof($handle))
+		{
+			$conteudo .= fgets($handle);
+		}
+
+		fclose($handle);
+
+		$retorno['conteudo'] = $conteudo;
+		$retorno['tipo_mime'] = $imagem[0]['type'];
+	}
+
+	return $retorno;
+}
