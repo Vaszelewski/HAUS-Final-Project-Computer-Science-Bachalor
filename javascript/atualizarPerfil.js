@@ -101,7 +101,7 @@ $(document).ready(function(){
 	});
 
 	$('#arquivoImagem').change(function(){
-		atualizaPreviewImagem(this.files[0]);
+		atualizaPreviewImagem(this.files[0], 'form');
 	});
 
 });

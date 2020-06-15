@@ -10,11 +10,15 @@
 	text-align: center;
 }
 
+.setaVoltar{
+	font-size: 25px;
+	cursor: pointer;
+}
+
 /*--------------------Altualiza perfil--------------------*/
 #miniaturaUsuario{
 	border-radius: 50%;
 	max-width: 60px;
-	margin-right: 0px;
 }
 
 .imagemPreview{
@@ -90,12 +94,62 @@
 
 .botoesAdministraColecao{
 	margin-top: 3px;
+	width: 210px;
 }
 
 .botoesAdministraColecao a{
 	width: 100px;
 }
 
-.modal-footer div{
+.visualizar:hover,
+.editar:hover,
+.excluir:hover,
+#exibirTelaCadastroColecao:hover{
+	color: black !important;
+}
+
+/*--------------------Item--------------------*/
+.botaoContainer{
+	width: 100%;
+}
+
+#descricaoItem{
+	height: 60px;
+}
+
+.bootbox-body .imagemPreview{
+	margin-bottom: 0px;
+}
+
+.bootbox-body .imagemPreview span{
+	display: inline-block;
+	margin-top: 28%;
+}
+
+#exibicaoColecao .imagemPreview{
+	margin-bottom: 20px;
+}
+
+#itensColecao{
+	margin-top: 10px;
+}
+
+#itensColecao div{
+	padding: 5px;
+}
+
+.removeItem {
+	position: absolute;
+	cursor: pointer;
+	top: 5px;
+	left: 92%;
+	color: #b5b5b5;
+}
+
+.removeItem:hover{
+	color: white;
+}
+
+.miniaturaItem{
 	cursor: pointer;
 }

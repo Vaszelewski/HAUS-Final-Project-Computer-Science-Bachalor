@@ -1,3 +1,5 @@
+var swiper;
+
 function buscaCategorias(Deferred){
 	$.ajax({
 		url: "ajax/categoria.php",
@@ -7,28 +9,57 @@ function buscaCategorias(Deferred){
 		success: function(data){
 			if(data['dados'].length > 0)
 			{
+				$('#listaCategoria option').remove();
+				$('#listaCategoria').append('<option value="">Selecione uma categoria...</option>');
 				$.each(data['dados'], function(chave, valor){
 					$('#listaCategoria').append('<option value="'+valor['cod_categoria']+'">'+valor['nome']+'</option>');
 				});
 			}
-			Deferred.resolve();
+
+			if(Deferred != undefined){
+				Deferred.resolve();
+			}
 		}
 	});
 }
 
 function cadastrarCategoria(){
-	let dadosCadastro = {
-		'nome': $('#nome').val().trim()
-	}
-	$.ajax({
-		url: "ajax/categoria.php",
-		method: "POST",
-		data: dadosCadastro,
-		success: function(data){
-			if(data == 'true'){
-				exibeNotificacao('sucesso', 'Categoria cadastrada com sucesso!')
-			}else{
-				exibeNotificacao('erro', 'Categoria já cadastrada.')
+	let cadastraCategoria = bootbox.confirm({
+		title: "Cadastrar nova categoria",
+		message: $('#formularioCategoria').html(),
+		buttons: {
+			confirm: {
+				label: 'Cadastrar',
+				className: 'btn btn-primary text-white'
+			},
+			cancel: {
+				label: 'Cancelar'
+			}
+		},
+		callback: function (result) {
+			if(result)
+			{
+				let dadosCadastro = {
+					'nome': $('.bootbox-body #nomeCategoria').val()
+				}
+
+				$.ajax({
+					url: "ajax/categoria.php",
+					method: "POST",
+					data: dadosCadastro,
+					dataType: 'JSON',
+					success: function(data){
+						if(data['resultado']){
+							buscaCategorias();
+							exibeNotificacao('sucesso', 'Categoria cadastrada com sucesso!');
+							cadastraCategoria.modal('hide');
+						}else{
+							exibeNotificacao('erro', data['log']);
+						}
+					}
+				});
+
+				return false;
 			}
 		}
 	});
@@ -90,6 +121,15 @@ function buscaColecoes(){
 
 				$('.swiper-wrapper').append(templateColecao);
 			});
+
+			if(swiper != undefined)
+			{
+				swiper.update();
+			}
+			else
+			{
+				swiper = iniciarSwiper();
+			}
 		}
 	});
 }
@@ -97,6 +137,7 @@ function buscaColecoes(){
 function exibirColecoes(){
 	$('#exibicaoColecoes').show();
 	$('#cadastroAtualizacaoColecao').hide();
+	$('#exibicaoColecao').hide();
 
 	$('.formColecao .form-control').val('');
 	$('.imagemPreview img').prop('src', 'imagens/imagemAdd.jpg');
@@ -110,21 +151,23 @@ function exibirColecao(colecao){
 	$('#exibicaoColecao').find('img').prop('src', colecao['imagem']);
 	$('#tituloColecao').html(colecao['titulo']);
 	$('#descricaoColecao p').html(colecao['descricao']);
+
+	carregarItensColecao(colecao['cod_colecao']);
 }
 
 function exibirAtualizacaoColecao(acao, colecao){
 	$('#exibicaoColecoes').hide();
 	$('#cadastroAtualizacaoColecao').show();
 
-	var aguaraCategorias = $.Deferred();
+	var aguardarCategorias = $.Deferred();
 
 	if(!($('#listaCategoria option').length > 1))
 	{
-		buscaCategorias(aguaraCategorias);
+		buscaCategorias(aguardarCategorias);
 	}
 	else
 	{
-		aguaraCategorias.resolve();
+		aguardarCategorias.resolve();
 	}
 
 	if(acao == 'atualizar')
@@ -137,7 +180,7 @@ function exibirAtualizacaoColecao(acao, colecao){
 		$('#titulo').val(colecao['titulo']);
 		$('#descricao').val(colecao['descricao']);
 
-		$.when(aguaraCategorias).done(function(){
+		$.when(aguardarCategorias).done(function(){
 			$('#listaCategoria').val(colecao['cod_categoria'])
 		});
 		
@@ -152,20 +195,40 @@ function exibirAtualizacaoColecao(acao, colecao){
 }
 
 function excluirColecao(codColecao, elemento){
-	$.ajax({
-		url: "ajax/colecao.php",
-		method: "DELETE",
-		data: {'codColecao': codColecao},
-		dataType: 'JSON',
-		success: function(data){
-			if(data)
-			{
-				exibeNotificacao('sucesso', 'Coleção excluida com sucesso.');
-				$(elemento).remove();
+	bootbox.confirm({
+		message: "Tem certeza que deseja excluir está coleção?",
+		closeButton: false,
+		centerVertical: true,
+		buttons: {
+			confirm: {
+				label: 'Excluir',
+				className: 'btn btn-primary text-white'
+			},
+			cancel: {
+				label: 'Cancelar'
 			}
-			else
+		},
+		callback: function (result) {
+			if(result)
 			{
-				exibeNotificacao('erro', 'Falha na exclusão.');
+				$.ajax({
+					url: "ajax/colecao.php",
+					method: "DELETE",
+					data: {'codColecao': codColecao},
+					dataType: 'JSON',
+					success: function(data){
+						if(data)
+						{
+							exibeNotificacao('sucesso', 'Coleção excluida com sucesso.');
+							$(elemento).remove();
+							swiper.update();
+						}
+						else
+						{
+							exibeNotificacao('erro', 'Falha na exclusão.');
+						}
+					}
+				});
 			}
 		}
 	});
@@ -247,7 +310,7 @@ $(document).ready(function(){
 		exibirAtualizacaoColecao('cadastrar');
 	});
 
-	$('.voltarParaColecoes').click(function(){
+	$('.setaVoltar').click(function(){
 		exibirColecoes();
 	});
 
@@ -256,7 +319,7 @@ $(document).ready(function(){
 	});
 
 	$('#arquivoImagem').change(function(){
-		atualizaPreviewImagem(this.files[0]);
+		atualizaPreviewImagem(this.files[0], ".adicionarCapaColecao");
 	});
 
 	$('#cadastrarColecao').click(function(){
@@ -289,9 +352,6 @@ $(document).ready(function(){
 
 	$('#cadastrarCategoria').click(function(){
 		cadastrarCategoria();
-		var aguaraCategorias = $.Deferred();
-		$('#listaCategoria option').remove();
-		buscaCategorias(aguaraCategorias);
 	});
 
 });

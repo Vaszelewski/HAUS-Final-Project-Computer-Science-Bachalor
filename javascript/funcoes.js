@@ -44,7 +44,7 @@ function buscaCookie(nome){
 	return "";
 }
 
-function atualizaPreviewImagem(file){
+function atualizaPreviewImagem(file, elementoPai){
 	if(file)
 	{
 		if(file['type'].indexOf("image/") == 0)
@@ -52,11 +52,11 @@ function atualizaPreviewImagem(file){
 			let reader = new FileReader();
 
 			reader.onload = function(){
-				$('.imagemPreview > img').remove();
+				$(elementoPai + ' .imagemPreview > img').remove();
 
 				var image = new Image();
 				image.src = reader.result;
-				$('.imagemPreview').append(image);
+				$(elementoPai + ' .imagemPreview').append(image);
 			}
 
 			reader.readAsDataURL(file);
@@ -67,3 +67,53 @@ function atualizaPreviewImagem(file){
 		}
 	}
 }
+
+function iniciarSwiper(){
+	let parametros = {
+		pagination: {
+			el: '.swiper-pagination',
+		},
+		navigation: {
+			nextEl: '.swiper-button-next',
+			prevEl: '.swiper-button-prev',
+		},
+		mousewheel: {
+			invert: false,
+			forceToAxis: true,
+			releaseOnEdges: true,
+		},
+		freeMode: true,
+		spaceBetween: 30,
+		mousewheel: true,
+		pagination: {
+			el: '.swiper-pagination',
+			clickable: true,
+		},
+		slidesPerView: 3,
+		breakpoints: {
+			668: {
+				slidesPerView: 1
+			},
+			1024: {
+				slidesPerView: 2 
+			}
+		},
+		spaceBetween: 20
+	}
+
+	let swiper = new Swiper ('.swiper-container', parametros);
+
+	return swiper;
+}
+
+$("#deslogar").click(function(){
+	$.ajax({
+		url: "ajax/usuario.php",
+		method: "POST",
+		data: {'deslogar': 'true'},
+		dataType: 'JSON',
+		success: function(data){
+			window.location.replace(window.location.origin + window.location.pathname);
+		}
+	});
+});

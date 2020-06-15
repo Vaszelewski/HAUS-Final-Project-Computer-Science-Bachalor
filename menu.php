@@ -125,21 +125,6 @@
 			</ul>
 		</nav>
 	</div>
-
-<script>
-	$("#deslogar").click(function(){
-		$.ajax({
-			url: "ajax/usuario.php",
-			method: "POST",
-			data: {'deslogar': 'true'},
-			dataType: 'JSON',
-			success: function(data){
-				window.location.replace(window.location.origin + window.location.pathname);
-			}
-		});
-	});
-</script>
-
 <?php
 	}
 ?>

@@ -289,6 +289,6 @@ jQuery(document).ready(function($) {
 
 	  })
 	}
-	swiperSetting();
+	//swiperSetting();
 
 });

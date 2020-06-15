@@ -65,7 +65,7 @@ function buscarColecao($dadosBusca){
  * 	log: em caso de erro informa o erro ocorrido.
  */
 function cadastrarColecao($colecao){
-	$retorno = array("resultado" => false, "log" => "Dados obrigátorios não enviados");
+	$retorno = array("resultado" => false, "log" => "Dados obrigátorios não enviados", "cod_colecao" => 0);
 
 	if(isset($colecao['titulo']) && isset($colecao['codCategoria']) && isset($colecao['descricao']))
 	{
@@ -88,36 +88,8 @@ function cadastrarColecao($colecao){
 		if($codColecao > 0)
 		{
 			$retorno = relacionaColecaoUsuario($codColecao);
+			$retorno['cod_colecao'] = $codColecao;
 		}
-	}
-
-	return $retorno;
-}
-
-/**
- * Prepara os dados da imagem recebida para utilizada na em query sql.
- * @param Array $imagem dados da imagem recebida
- * @return Array
- * 	conteudo: dados imagem para query
- * 	tipo_mime: extensão da imagem
- */
-function preparaDadosImagem($imagem){
-	$retorno = array('conteudo' => "", 'tipo_mime' => "");
-
-	if(!empty($imagem[0]['name']) && $imagem[0]['size'] > 0 && is_numeric(strpos($imagem[0]['type'], 'image/')))
-	{
-		$conteudo = "";
-		$handle = fopen($imagem[0]['tmp_name'], "r");
-
-		while(!feof($handle))
-		{
-			$conteudo .= fgets($handle);
-		}
-
-		fclose($handle);
-
-		$retorno['conteudo'] = $conteudo;
-		$retorno['tipo_mime'] = $imagem[0]['type'];
 	}
 
 	return $retorno;
