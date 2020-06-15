@@ -67,3 +67,41 @@ function atualizaPreviewImagem(file, elementoPai){
 		}
 	}
 }
+
+function iniciarSwiper(){
+	let parametros = {
+		pagination: {
+			el: '.swiper-pagination',
+		},
+		navigation: {
+			nextEl: '.swiper-button-next',
+			prevEl: '.swiper-button-prev',
+		},
+		mousewheel: {
+			invert: false,
+			forceToAxis: true,
+			releaseOnEdges: true,
+		},
+		freeMode: true,
+		spaceBetween: 30,
+		mousewheel: true,
+		pagination: {
+			el: '.swiper-pagination',
+			clickable: true,
+		},
+		slidesPerView: 3,
+		breakpoints: {
+			668: {
+				slidesPerView: 1
+			},
+			1024: {
+				slidesPerView: 2 
+			}
+		},
+		spaceBetween: 20
+	}
+
+	let swiper = new Swiper ('.swiper-container', parametros);
+
+	return swiper;
+}

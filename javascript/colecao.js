@@ -1,3 +1,5 @@
+var swiper;
+
 function buscaCategorias(Deferred){
 	$.ajax({
 		url: "ajax/categoria.php",
@@ -73,6 +75,15 @@ function buscaColecoes(){
 
 				$('.swiper-wrapper').append(templateColecao);
 			});
+
+			if(swiper != undefined)
+			{
+				swiper.update();
+			}
+			else
+			{
+				swiper = iniciarSwiper();
+			}
 		}
 	});
 }
@@ -102,15 +113,15 @@ function exibirAtualizacaoColecao(acao, colecao){
 	$('#exibicaoColecoes').hide();
 	$('#cadastroAtualizacaoColecao').show();
 
-	var aguaraCategorias = $.Deferred();
+	var aguardarCategorias = $.Deferred();
 
 	if(!($('#listaCategoria option').length > 1))
 	{
-		buscaCategorias(aguaraCategorias);
+		buscaCategorias(aguardarCategorias);
 	}
 	else
 	{
-		aguaraCategorias.resolve();
+		aguardarCategorias.resolve();
 	}
 
 	if(acao == 'atualizar')
@@ -123,7 +134,7 @@ function exibirAtualizacaoColecao(acao, colecao){
 		$('#titulo').val(colecao['titulo']);
 		$('#descricao').val(colecao['descricao']);
 
-		$.when(aguaraCategorias).done(function(){
+		$.when(aguardarCategorias).done(function(){
 			$('#listaCategoria').val(colecao['cod_categoria'])
 		});
 		
@@ -164,6 +175,7 @@ function excluirColecao(codColecao, elemento){
 						{
 							exibeNotificacao('sucesso', 'Coleção excluida com sucesso.');
 							$(elemento).remove();
+							swiper.update();
 						}
 						else
 						{
