@@ -80,6 +80,7 @@ function buscaColecoes(){
 function exibirColecoes(){
 	$('#exibicaoColecoes').show();
 	$('#cadastroAtualizacaoColecao').hide();
+	$('#exibicaoColecao').hide();
 
 	$('.formColecao .form-control').val('');
 	$('.imagemPreview img').prop('src', 'imagens/imagemAdd.jpg');
@@ -137,20 +138,39 @@ function exibirAtualizacaoColecao(acao, colecao){
 }
 
 function excluirColecao(codColecao, elemento){
-	$.ajax({
-		url: "ajax/colecao.php",
-		method: "DELETE",
-		data: {'codColecao': codColecao},
-		dataType: 'JSON',
-		success: function(data){
-			if(data)
-			{
-				exibeNotificacao('sucesso', 'Coleção excluida com sucesso.');
-				$(elemento).remove();
+	bootbox.confirm({
+		message: "Tem certeza que deseja excluir está coleção?",
+		closeButton: false,
+		centerVertical: true,
+		buttons: {
+			confirm: {
+				label: 'Excluir',
+				className: 'btn btn-primary text-white'
+			},
+			cancel: {
+				label: 'Cancelar'
 			}
-			else
+		},
+		callback: function (result) {
+			if(result)
 			{
-				exibeNotificacao('erro', 'Falha na exclusão.');
+				$.ajax({
+					url: "ajax/colecao.php",
+					method: "DELETE",
+					data: {'codColecao': codColecao},
+					dataType: 'JSON',
+					success: function(data){
+						if(data)
+						{
+							exibeNotificacao('sucesso', 'Coleção excluida com sucesso.');
+							$(elemento).remove();
+						}
+						else
+						{
+							exibeNotificacao('erro', 'Falha na exclusão.');
+						}
+					}
+				});
 			}
 		}
 	});
@@ -232,7 +252,7 @@ $(document).ready(function(){
 		exibirAtualizacaoColecao('cadastrar');
 	});
 
-	$('.voltarParaColecoes').click(function(){
+	$('.setaVoltar').click(function(){
 		exibirColecoes();
 	});
 

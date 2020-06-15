@@ -10,6 +10,11 @@
 	text-align: center;
 }
 
+.setaVoltar{
+	font-size: 25px;
+	cursor: pointer;
+}
+
 /*--------------------Altualiza perfil--------------------*/
 #miniaturaUsuario{
 	border-radius: 50%;
@@ -89,6 +94,7 @@
 
 .botoesAdministraColecao{
 	margin-top: 3px;
+	width: 210px;
 }
 
 .botoesAdministraColecao a{
@@ -124,7 +130,26 @@
 	margin-bottom: 20px;
 }
 
-#exibicaoColecao #lightgallery{
-	margin-top: 35px;
+#itensColecao{
+	margin-top: 10px;
 }
 
+#itensColecao div{
+	padding: 5px;
+}
+
+.removeItem {
+	position: absolute;
+	cursor: pointer;
+	top: 5px;
+	left: 92%;
+	color: #b5b5b5;
+}
+
+.removeItem:hover{
+	color: white;
+}
+
+.miniatuaItem{
+	cursor: pointer;
+}

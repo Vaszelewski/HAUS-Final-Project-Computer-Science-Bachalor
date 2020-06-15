@@ -5,16 +5,31 @@ function carregarItensColecao(codColecao){
 		data: {'parametros': "*", 'codColecao': codColecao},
 		dataType: 'JSON',
 		success: function(data){
+			$('#itensColecao').html("");
+
 			if(data['resultado'] && data['dados'].length > 0)
 			{
+				if($('#itensColecao').data('lightGallery') != undefined)
+				{
+					$('#itensColecao').data('lightGallery').destroy(true);
+				}
+
 				$.each(data['dados'], function(chave, valor){
 					let templateItem = $('#templateExibicaoItem >').clone();
 					
-					templateItem.attr('data-src', valor['imagem'])
-					templateItem.attr('data-sub-html', valor['descricao'])
+					templateItem.find('a').attr('data-src', valor['imagem'])
+					templateItem.find('a').attr('data-sub-html', "<h4>" + valor['titulo'] + "</h4>" + "<p>" + valor['descricao'] + "</p>")
 					templateItem.find('img').prop('src', valor['imagem']);
 
-					$('#lightgallery').append(templateItem);
+					templateItem.find('.removeItem').click(function(){
+						excluirItem(valor['cod_item'], codColecao);
+					});
+
+					$('#itensColecao').append(templateItem);
+				});
+
+				$('#itensColecao').lightGallery({
+					selector: 'a'
 				});
 			}
 		}
@@ -85,6 +100,7 @@ function cadastrarItem(codColecao){
 						success: function(data){
 							if(data['resultado'])
 							{
+								carregarItensColecao(codColecao);
 								exibeNotificacao("sucesso", "Item cadastrado.");
 							}
 							else
@@ -104,14 +120,52 @@ function cadastrarItem(codColecao){
 		});
 
 		$('#imagemItem').change(function(){
-			console.log('teste');
 			atualizaPreviewImagem(this.files[0], ".bootbox-body");
 		});
 	});
 }
 
+function excluirItem(codItem, codColecao){
+	bootbox.confirm({
+		message: "Tem certeza que deseja excluir este item?",
+		closeButton: false,
+		centerVertical: true,
+		buttons: {
+			confirm: {
+				label: 'Excluir',
+				className: 'btn btn-primary text-white'
+			},
+			cancel: {
+				label: 'Cancelar'
+			}
+		},
+		callback: function (result) {
+			if(result)
+			{
+				$.ajax({
+					url: "ajax/item.php",
+					method: "DELETE",
+					data: {'codItem': codItem, "codColecao": codColecao},
+					dataType: 'JSON',
+					success: function(data){
+						if(data)
+						{
+							exibeNotificacao('sucesso', 'Item excluida com sucesso.');
+							carregarItensColecao(codColecao);
+						}
+						else
+						{
+							exibeNotificacao('erro', 'Falha na exclusão.');
+						}
+					}
+				});
+			}
+		}
+	});
+}
+
 function itensReady(codColecao){
-	$('#cadastrarItem').click(function(){
+	$('#cadastrarItem').unbind().click(function(){
 		cadastrarItem(codColecao);
 	});
 }

@@ -18,6 +18,7 @@
 </div>
 
 <div id="cadastroAtualizacaoColecao" class="none">
+	<i class="icon-arrow_back setaVoltar" aria-hidden="true"></i>
 	<div class="row justify-content-center">
 		<div class="col-md-7">
 			<div class="row mb-5">
@@ -68,7 +69,6 @@
 					</div>
 
 					<div class="centro">
-						<input type="button" value="Voltar" class="btn btn-primary text-white voltarParaColecoes">
 						<input id="cadastrarColecao" type="button" value="Cadastrar" class="btn btn-primary text-white none">
 						<input id="atualizarColecao" type="button" value="Atualizar" class="btn btn-primary text-white none">
 					</div>
@@ -79,15 +79,16 @@
 </div>
 
 <div id="exibicaoColecao" class="none">
+	<i class="icon-arrow_back setaVoltar" aria-hidden="true"></i>
 	<div class="row justify-content-center">
 		<div class="col-md-7">
-			<div class="row mb-5">
+			<div class="row mb-4">
 				<div class="col-12">
 					<h2 id="tituloColecao" class="site-section-heading text-center"></h2>
 				</div>
 			</div>
 	
-			<div class="row mb-5">
+			<div class="row mb-4">
 				<div class="col-12">
 					<div class="exibicaoColecao">
 						<div class="row imagemPreview">
@@ -108,7 +109,7 @@
 					<input id="cadastrarItem" type="button" value="Cadastrar Item" class="btn btn-primary text-white">
 				</div>
 
-				<div class="row" id="lightgallery"></div>
+				<div class="row" id="itensColecao"></div>
 			</div>
 		</div>
 	</div>
@@ -159,12 +160,13 @@
 </div>
 
 <div class="none" id="templateExibicaoItem">
-	<div class="col-sm-6 col-md-4 col-lg-3 col-xl-2 item" data-aos="fade"
-		data-src=""
-		data-sub-html="">
-		<a href="#">
-			<img src="" alt="IMage" class="img-fluid">
+	<div class="col-sm-12 col-md-6 col-xl-4 item teste" data-aos="fade">
+		<a>
+			<img src="" alt="IMage" class="img-fluid miniatuaItem">
 		</a>
+		<span class="removeItem">
+			<i class="icon-close" aria-hidden="true"></i>
+		</span>
 	</div>
 </div>
 
