@@ -104,6 +104,7 @@ function iniciarSwiper(){
 	let swiper = new Swiper ('.swiper-container', parametros);
 
 	return swiper;
+
 }
 
 $("#deslogar").click(function(){
