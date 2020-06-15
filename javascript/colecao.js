@@ -9,12 +9,58 @@ function buscaCategorias(Deferred){
 		success: function(data){
 			if(data['dados'].length > 0)
 			{
+				$('#listaCategoria option').remove();
+				$('#listaCategoria').append('<option value="">Selecione uma categoria...</option>');
 				$.each(data['dados'], function(chave, valor){
 					$('#listaCategoria').append('<option value="'+valor['cod_categoria']+'">'+valor['nome']+'</option>');
 				});
 			}
 
-			Deferred.resolve();
+			if(Deferred != undefined){
+				Deferred.resolve();
+			}
+		}
+	});
+}
+
+function cadastrarCategoria(){
+	let cadastraCategoria = bootbox.confirm({
+		title: "Cadastrar nova categoria",
+		message: $('#formularioCategoria').html(),
+		buttons: {
+			confirm: {
+				label: 'Cadastrar',
+				className: 'btn btn-primary text-white'
+			},
+			cancel: {
+				label: 'Cancelar'
+			}
+		},
+		callback: function (result) {
+			if(result)
+			{
+				let dadosCadastro = {
+					'nome': $('.bootbox-body #nomeCategoria').val()
+				}
+
+				$.ajax({
+					url: "ajax/categoria.php",
+					method: "POST",
+					data: dadosCadastro,
+					dataType: 'JSON',
+					success: function(data){
+						if(data['resultado']){
+							buscaCategorias();
+							exibeNotificacao('sucesso', 'Categoria cadastrada com sucesso!');
+							cadastraCategoria.modal('hide');
+						}else{
+							exibeNotificacao('erro', data['log']);
+						}
+					}
+				});
+
+				return false;
+			}
 		}
 	});
 }
@@ -303,4 +349,9 @@ $(document).ready(function(){
 			atualizaColecao(dadosAtualizacao);
 		}
 	});
+
+	$('#cadastrarCategoria').click(function(){
+		cadastrarCategoria();
+	});
+
 });

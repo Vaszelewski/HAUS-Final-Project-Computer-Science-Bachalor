@@ -14,8 +14,7 @@
 				WHERE 
 					email LIKE '".bd_mysqli_real_escape_string($dadoReset['email'])."'
 		";		
-		//ATUALIZAR COM A FUNÇÃO BD_EXCLUI() DEPOIS
-		bd_atualiza($deletaEmail);
+		bd_exclui($deletaEmail);
 	}
 
 	function buscaRequisicao($dadoReset){

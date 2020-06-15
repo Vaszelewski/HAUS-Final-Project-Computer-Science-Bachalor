@@ -104,4 +104,17 @@ function iniciarSwiper(){
 	let swiper = new Swiper ('.swiper-container', parametros);
 
 	return swiper;
+
 }
+
+$("#deslogar").click(function(){
+	$.ajax({
+		url: "ajax/usuario.php",
+		method: "POST",
+		data: {'deslogar': 'true'},
+		dataType: 'JSON',
+		success: function(data){
+			window.location.replace(window.location.origin + window.location.pathname);
+		}
+	});
+});

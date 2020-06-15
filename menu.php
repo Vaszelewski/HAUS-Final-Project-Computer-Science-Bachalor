@@ -11,8 +11,8 @@
 	<div class="col-10 col-md-6 d-none d-xl-block" data-aos="fade-down">
 		<nav class="site-navigation position-relative text-right text-lg-center" role="navigation">
 			<ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
-				<li class="active">
-					<a href="?pag=index">Home</a>
+				<li <?= isset($_GET['pag']) && $_GET['pag'] == "index" ? 'class="active"' : ''; ?> >
+					<a href="?pag=index">Início</a>
 				</li>
 				<li class="has-children">
 					<a href="?pag=single">Gallery</a>
@@ -54,10 +54,7 @@
 						</li>
 					</ul>
 				</li>
-				<li>
-					<a href="?pag=services">Services</a>
-				</li>
-				<li>
+				<li <?= isset($_GET['pag']) && $_GET['pag'] == "sobre" ? 'class="active"' : ''; ?>>
 					<a href="?pag=sobre">Sobre</a>
 				</li>
 			</ul>
@@ -68,7 +65,7 @@
 		<nav class="site-navigation position-relative text-right text-lg-center" role="navigation">
 			<ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
 				<li class="botaoCadastro">
-					<a href="?pag=cadastro">Cadastrar</a>
+					<a href="?pag=cadastro">Cadastre-se</a>
 				</li>
 				<li class="botaoEntrar">
 					<a href="?pag=login">Entrar</a>
@@ -82,30 +79,49 @@
 	{
 		$displayName = strlen($_SESSION['user_info']['display_name']) > 0 ? $_SESSION['user_info']['display_name'] : $_SESSION['user_info']['nome'];
 ?>
-<div class="col-10 col-md-6 d-none d-xl-block" data-aos="fade-down">
+
+<div class="col-9 col-md-5 d-none d-xl-block" data-aos="fade-down">
 		<nav class="site-navigation position-relative text-right text-lg-center" role="navigation">
 			<ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
-				<li class="active">
-					<a href="?pag=colecao">Coleções</a>
+				<li <?= isset($_GET['pag']) && $_GET['pag'] == "index" ? 'class="active"' : ''; ?>>
+					<a href="?pag=index">Início</a>
 				</li>
 				<li>
-					<a href="?pag=suporte">Suporte</a>
+					<a href="">Categorias</a>
+				</li>
+				<li <?= isset($_GET['pag']) && $_GET['pag'] == "colecao" ? 'class="active"' : ''; ?>>
+					<a href="?pag=colecao">Coleção</a>
+				</li>
+				<li>
+					<a href="#">Favoritos</a>
 				</li>
 			</ul>
 		</nav>
 	</div>
 
-	<div class="col-3 col-md-3 d-none d-xl-block" data-aos="fade-down">
-		<nav class="site-navigation position-relative text-right text-lg-center" role="navigation">
+	<div class="col-4 col-md-4 d-none d-xl-block" data-aos="fade-down">
+		<nav class="site-navigation position-relative text-right text-lg-right" role="navigation">
 			<ul class="site-menu js-clone-nav mx-auto d-none d-lg-block">
 				<li>
-					<a href="?pag=atualizarPerfil"><?= htmlentities($displayName) ?></a>
+					<a><?= htmlentities($displayName) ?></a>
 				</li>
-				<li>
+				<li class="has-children">
 					<div>
 						<img id="miniaturaUsuario" src="<?= htmlentities($_SESSION['user_info']['imagem']) ?>">
 					</div>
+					<ul class="dropdown dropdown-menu-right" role="menu">
+						<li>
+							<a href="?pag=atualizarPerfil">Atualizar Perfil</a>
+						</li>
+						<li>
+							<a href="?pag=suporte">Suporte</a>
+						</li>
+						<li>
+							<a id="deslogar">Sair</a>
+						</li>
+					</ul>
 				</li>
+				
 			</ul>
 		</nav>
 	</div>
