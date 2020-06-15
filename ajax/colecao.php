@@ -54,6 +54,8 @@ switch($_SERVER['REQUEST_METHOD'])
 		$retorno = excluiColecao($dadosRequisicao['codColecao']);
 
 		echo json_encode($retorno);
+
+		break;
 	}
 }
 

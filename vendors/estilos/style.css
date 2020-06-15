@@ -71,7 +71,6 @@ a {
   background: #000; }
 
 .form-control {
-  height: 35px;
   border-radius: 0; }
   .form-control:active, .form-control:focus {
     border-color: #20c997; }

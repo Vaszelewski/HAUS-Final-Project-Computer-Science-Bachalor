@@ -4,7 +4,7 @@
 			<div class="image-wrap">
 				<div class="image-info">
 					<h2 class="mb-3">Nova coleção</h2>
-					<a id="exibirTelaCadastroColecao" class="btn btn-outline-white py-2 px-4">Cadastrar</a>
+					<a id="exibirTelaCadastroColecao" class="btn btn-outline-white py-2 px-4 text-white">Cadastrar</a>
 				</div>
 				<img src="imagens/imagemAdd.jpg" alt="Image">
 			</div>
@@ -18,6 +18,7 @@
 </div>
 
 <div id="cadastroAtualizacaoColecao" class="none">
+	<i class="icon-arrow_back setaVoltar" aria-hidden="true"></i>
 	<div class="row justify-content-center">
 		<div class="col-md-7">
 			<div class="row mb-5">
@@ -29,14 +30,15 @@
 			<div class="row mb-5">
 				<div class="col-12">
 					<div class="col-lg-3 adicionarCapaColecao">
-						<div class="row form-group imagemPreview"><img src="imagens/imagemAdd.jpg">
-						<div>
-							<span>
-								Adicionar capa
-							</span>
+						<div class="row form-group imagemPreview">
+							<img src="imagens/imagemAdd.jpg">
+							<div>
+								<span>
+									Adicionar capa
+								</span>
+							</div>
+							<input type="file" id="arquivoImagem" class="none">
 						</div>
-						<input type="file" id="arquivoImagem" class="none">
-					</div>
 					</div>
 
 					<div class="col-lg-8 mb-5 ml-auto">
@@ -67,7 +69,6 @@
 					</div>
 
 					<div class="centro">
-						<input type="button" value="Voltar" class="btn btn-primary text-white voltarParaColecoes">
 						<input id="cadastrarColecao" type="button" value="Cadastrar" class="btn btn-primary text-white none">
 						<input id="atualizarColecao" type="button" value="Atualizar" class="btn btn-primary text-white none">
 					</div>
@@ -78,18 +79,21 @@
 </div>
 
 <div id="exibicaoColecao" class="none">
+	<i class="icon-arrow_back setaVoltar" aria-hidden="true"></i>
 	<div class="row justify-content-center">
 		<div class="col-md-7">
-			<div class="row mb-5">
+			<div class="row mb-4">
 				<div class="col-12">
 					<h2 id="tituloColecao" class="site-section-heading text-center"></h2>
 				</div>
 			</div>
 	
-			<div class="row mb-5">
+			<div class="row mb-4">
 				<div class="col-12">
 					<div class="exibicaoColecao">
-						<div class="row imagemPreview"><img src=""></div>
+						<div class="row imagemPreview">
+							<img src="">
+						</div>
 					</div>
 				</div>
 
@@ -100,9 +104,43 @@
 						</div>
 					</div>
 				</div>
+
+				<div class="botaoContainer centro">
+					<input id="cadastrarItem" type="button" value="Cadastrar Item" class="btn btn-primary text-white">
+				</div>
+
+				<div class="row" id="itensColecao"></div>
 			</div>
 		</div>
 	</div>
+</div>
+
+<div id="formularioItens" class="none">
+	<div class="row form-group imagemPreview">
+		<img src="imagens/imagemAdd.jpg">
+		<div>
+			<span>
+				Adicionar imagem
+			</span>
+		</div>
+		<input type="file" id="imagemItem" class="none">
+	</div>
+
+	<form class="formItem">
+		<div class="row form-group">
+			<div class="col-md-12">
+				<label class="text-black" >Título</label>
+				<input type="text" id="tituloItem" class="form-control">
+			</div>
+		</div>
+
+		<div class="row form-group">
+			<div class="col-md-12">
+				<label class="text-black">Descrição</label>
+				<textarea id="descricaoItem" cols="30" rows="7" class="form-control"></textarea>
+			</div>
+		</div>
+	</form>
 </div>
 
 <div id="templateExibicaoColecao" class="swiper-slide none" style="width: 432px; margin-right: 20px;">
@@ -110,15 +148,27 @@
 		<div class="image-info">
 			<div>
 				<h2 class="mb-3 titulo"></h2>
-				<a class="btn btn-outline-white py-2 px-4 visualizar">Visualizar</a>
+				<a class="btn btn-outline-white py-2 px-4 text-white visualizar">Visualizar</a>
 			</div>
 			<div class="botoesAdministraColecao">
-				<a class="btn btn-outline-white py-2 px-4 editar">Editar</a>
-				<a class="btn btn-outline-white py-2 px-4 excluir">Excluir</a>
+				<a class="btn btn-outline-white py-2 px-4 text-white editar">Editar</a>
+				<a class="btn btn-outline-white py-2 px-4 text-white excluir">Excluir</a>
 			</div>
 		</div>
 		<img src="">
 	</div>
 </div>
 
+<div class="none" id="templateExibicaoItem">
+	<div class="col-sm-12 col-md-6 col-xl-4 item teste" data-aos="fade">
+		<a>
+			<img src="" alt="IMage" class="img-fluid miniatuaItem">
+		</a>
+		<span class="removeItem">
+			<i class="icon-close" aria-hidden="true"></i>
+		</span>
+	</div>
+</div>
+
 <script src="javascript/colecao.js"></script>
+<script src="javascript/item.js"></script>

@@ -44,7 +44,7 @@ function buscaCookie(nome){
 	return "";
 }
 
-function atualizaPreviewImagem(file){
+function atualizaPreviewImagem(file, elementoPai){
 	if(file)
 	{
 		if(file['type'].indexOf("image/") == 0)
@@ -52,11 +52,11 @@ function atualizaPreviewImagem(file){
 			let reader = new FileReader();
 
 			reader.onload = function(){
-				$('.imagemPreview > img').remove();
+				$(elementoPai + ' .imagemPreview > img').remove();
 
 				var image = new Image();
 				image.src = reader.result;
-				$('.imagemPreview').append(image);
+				$(elementoPai + ' .imagemPreview').append(image);
 			}
 
 			reader.readAsDataURL(file);

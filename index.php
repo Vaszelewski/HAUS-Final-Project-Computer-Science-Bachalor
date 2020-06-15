@@ -83,6 +83,7 @@
 		<script src="vendors/javascript/picturefill.min.js"></script>
 		<script src="vendors/javascript/lightgallery-all.min.js"></script>
 		<script src="vendors/javascript/jquery.mousewheel.min.js"></script>
+		<script src="vendors/javascript/bootbox.all.min.js"></script>
 		<script src="vendors/javascript/main.js"></script>
 		<script src="javascript/funcoes.js"></script>
 		
