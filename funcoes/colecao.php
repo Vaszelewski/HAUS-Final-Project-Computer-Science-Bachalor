@@ -65,7 +65,7 @@ function buscarColecao($dadosBusca){
  * 	log: em caso de erro informa o erro ocorrido.
  */
 function cadastrarColecao($colecao){
-	$retorno = array("resultado" => false, "log" => "Dados obrigátorios não enviados");
+	$retorno = array("resultado" => false, "log" => "Dados obrigátorios não enviados", "cod_colecao" => 0);
 
 	if(isset($colecao['titulo']) && isset($colecao['codCategoria']) && isset($colecao['descricao']))
 	{
@@ -88,6 +88,7 @@ function cadastrarColecao($colecao){
 		if($codColecao > 0)
 		{
 			$retorno = relacionaColecaoUsuario($codColecao);
+			$retorno['cod_colecao'] = $codColecao;
 		}
 	}
 
