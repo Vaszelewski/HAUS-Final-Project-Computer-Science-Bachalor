@@ -5,6 +5,8 @@
  * @return Array retorna o resultado da pesquisa realizada.
  */
 function buscarColecao($dadosBusca){
+	$retorno = array("resultado" => false, "log" => "Categoria não encontrada.", "dados" => array());
+
 	$sql = "
 		SELECT
 			".bd_mysqli_real_escape_string($dadosBusca['parametros'])."
@@ -41,17 +43,24 @@ function buscarColecao($dadosBusca){
 		$sql
 	);
 
-	$retorno = bd_consulta($sql);
+	$dadosBusca = bd_consulta($sql);
 
-	if(!empty($retorno) && isset($retorno[0]['imagem']))
+	if(!empty($dadosBusca) && isset($dadosBusca[0]['imagem']))
 	{
-		foreach($retorno as $chave => $valor)
+		foreach($dadosBusca as $chave => $valor)
 		{
-			$retorno[$chave]['imagem'] =	!empty($valor['imagem']) 
+			$dadosBusca[$chave]['imagem'] =	!empty($valor['imagem']) 
 											? "data:".$valor['tipo_mime'].";base64,".base64_encode($valor['imagem']).""
 											: "";
-			unset($retorno[$chave]['tipo_mime']);
+			unset($dadosBusca[$chave]['tipo_mime']);
 		}
+	}
+
+	if(is_array($dadosBusca))
+	{
+		$retorno['resultado'] = true;
+		$retorno['log'] = "";
+		$retorno['dados'] = $dadosBusca;
 	}
 
 	return $retorno;

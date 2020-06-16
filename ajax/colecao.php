@@ -6,7 +6,7 @@ switch($_SERVER['REQUEST_METHOD'])
 {
 	case 'GET':
 	{
-		$dadosRequisicao = mapeaDadosRequest($_GET, array('parametros', 'buscaColecoesUsuario'));
+		$dadosRequisicao = mapeaDadosRequest($_GET, array('parametros', 'buscaColecoesUsuario', 'codCategoria'));
 		
 		$retorno = buscarColecao($dadosRequisicao);
 

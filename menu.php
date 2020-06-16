@@ -86,8 +86,8 @@
 				<li <?= isset($_GET['pag']) && $_GET['pag'] == "index" ? 'class="active"' : ''; ?>>
 					<a href="?pag=index">Início</a>
 				</li>
-				<li>
-					<a href="">Categorias</a>
+				<li <?= isset($_GET['pag']) && $_GET['pag'] == "categoria" ? 'class="active"' : ''; ?>>
+					<a href="?pag=categoria">Categorias</a>
 				</li>
 				<li <?= isset($_GET['pag']) && $_GET['pag'] == "colecao" ? 'class="active"' : ''; ?>>
 					<a href="?pag=colecao">Coleção</a>
