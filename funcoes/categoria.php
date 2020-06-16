@@ -4,28 +4,41 @@
  * @param Array $dadosBusca parametros para busca
  * @return Array dados da busca
  */
-function buscaCategoria($dadosBusca){
+function buscaCategoria($parametros){
 	$retorno = array("resultado" => false, "mensagem" => "Categoria não encontrada.", "dados" => array());
 
 	$sql = "
 		SELECT
-			".bd_mysqli_real_escape_string($dadosBusca['parametros'])."
+			".bd_mysqli_real_escape_string($parametros['parametros'])."
 		FROM
 			categoria
 		WHERE
 			1
 			[%1]
+			[%2]
+			[%3]
 	";
 
-	$nome = isset($dadosBusca['nome']) ? "AND nome LIKE '".bd_mysqli_real_escape_string($dadosBusca['nome'])."'" : "";
+	$nome = isset($parametros['nome']) ? "AND nome LIKE '".bd_mysqli_real_escape_string($parametros['nome'])."'" : "";
+	$categoriasUtilizadas = isset($parametros['categoriasUtilizadas']) ? "AND cod_categoria IN (SELECT cod_categoria FROM colecao)" : "";
+	$orderBy = isset($parametros['ordenada']) ? "ORDER BY qtd_visualizacao DESC" : "";
 
 	$sql = str_replace(
-		array('[%1]'),
-		array($nome),
+		array('[%1]', '[%2]', '[%3]'),
+		array($nome, $categoriasUtilizadas, $orderBy),
 		$sql
 	);
 
 	$dadosBusca = bd_consulta($sql);
+
+	if(isset($parametros['categoriasUtilizadas']) && !empty($dadosBusca))
+	{
+		foreach ($dadosBusca as $chave => $valor)
+		{
+			$dadosColecao = buscarColecao(array("parametros" => 'tipo_mime, imagem', "codCategoria" => $valor['cod_categoria']));
+			$dadosBusca[$chave]['imagem'] = $dadosColecao['dados'][0]['imagem'];
+		}
+	}
 
 	if(is_array($dadosBusca))
 	{
@@ -82,6 +95,29 @@ function verificaExistenciaCategoria($nome){
 	if(empty($categoria['dados']))
 	{
 		$retorno = true;
+	}
+
+	return $retorno;
+}
+
+/**
+ * 
+ */
+function atualizarCategoria($dadosAtualizacao){
+	$retorno = array("resultado" => false, "log" => "Falha na atualização.");
+
+	$sql = "
+		UPDATE
+			categoria
+		SET
+			qtd_visualizacao = qtd_visualizacao + 1
+		WHERE
+			cod_categoria = ".bd_mysqli_real_escape_string($dadosAtualizacao['codCategoria']);
+
+	if(bd_atualiza($sql))
+	{
+		$retorno['resultado'] = true;
+		$retorno['log'] = "";
 	}
 
 	return $retorno;

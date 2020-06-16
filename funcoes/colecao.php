@@ -16,9 +16,10 @@ function buscarColecao($dadosBusca){
 			1
 			[%1]
 			[%2]
+			[%3]
 	";
 
-	$categoria = $buscaColecoesUsuario = "";
+	$categoria = $buscaColecoesUsuario = $orderBy = "";
 
 	if(isset($dadosBusca['codCategoria']))
 	{
@@ -37,9 +38,14 @@ function buscarColecao($dadosBusca){
 													)";
 	}
 
+	if(!isset($dadosBusca['buscaColecoesUsuario']))
+	{
+		$orderBy = "ORDER BY qtd_visualizacao DESC";
+	}
+
 	$sql = str_replace( 
-		array('[%1]', '[%2]'),
-		array($categoria, $buscaColecoesUsuario),
+		array('[%1]', '[%2]', '[%3]'),
+		array($categoria, $buscaColecoesUsuario, $orderBy),
 		$sql
 	);
 
@@ -220,6 +226,12 @@ function atualizaColecao($novosDadosColecao){
 		$sqlSet[] = "cod_categoria = '".bd_mysqli_real_escape_string($novosDadosColecao['codCategoria'])."'";
 	}
 
+	if(isset($novosDadosColecao['registrarVisualizacao']))
+	{
+		$sqlSet = array();
+		$sqlSet[] = "qtd_visualizacao = qtd_visualizacao + 1";
+	}
+
 
 	$sql = str_replace(
 		'[%1]',
@@ -227,7 +239,7 @@ function atualizaColecao($novosDadosColecao){
 		$sql
 	);
 
-	if(ehDonoColecao($novosDadosColecao['codColecao']))
+	if(ehDonoColecao($novosDadosColecao['codColecao']) || $novosDadosColecao['registrarVisualizacao'])
 	{
 		if(bd_atualiza($sql))
 		{

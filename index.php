@@ -60,7 +60,7 @@
 				?>
 			</div>
 
-			<div class="footer py-4">
+			<div class="footer">
 				<div class="container-fluid">
 					<p>
 						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
@@ -86,12 +86,5 @@
 		<script src="vendors/javascript/bootbox.all.min.js"></script>
 		<script src="vendors/javascript/main.js"></script>
 		<script src="javascript/funcoes.js"></script>
-		
-		<script>
-			$(document).ready(function(){
-				$('#lightgallery').lightGallery();
-			});
-		</script>
-
 	</body>
 </html>

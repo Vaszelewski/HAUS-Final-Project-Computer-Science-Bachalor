@@ -1,5 +1,6 @@
 .marginMenu{
 	margin-top: -15px;
+	margin-bottom: -15px;
 }
 
 .none{
@@ -13,6 +14,27 @@
 .setaVoltar{
 	font-size: 25px;
 	cursor: pointer;
+}
+
+.footer{
+	padding-top: 1.4rem!important;
+}
+
+::-webkit-scrollbar{
+	width: 10px;
+}
+
+::-webkit-scrollbar-thumb{
+	background: #199d76;
+	border-radius: 13px;
+}
+
+.displayName{
+	cursor: context-menu;
+}
+
+.mbn-28{
+	margin-top: -28px;
 }
 
 /*--------------------Altualiza perfil--------------------*/
