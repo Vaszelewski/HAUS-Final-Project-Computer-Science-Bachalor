@@ -47,6 +47,12 @@ CREATE TABLE IF NOT EXISTS
 		nome VARCHAR(100) NOT NULL,
 		qtd_visualizacao int(11) NOT NULL DEFAULT 0
 	);
+CREATE TABLE IF NOT EXISTS
+	haus.altera_senha(
+  		email varchar(50) NOT NULL,
+  		chave varchar(250) NOT NULL,
+  		data_expiracao datetime NOT NULL
+);
 
 CREATE TABLE IF NOT EXISTS
 	haus.colecao(
