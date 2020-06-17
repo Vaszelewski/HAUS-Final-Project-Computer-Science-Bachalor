@@ -6,7 +6,7 @@ switch($_SERVER['REQUEST_METHOD'])
 {
 	case 'GET':
 	{
-		$dadosRequisicao = mapeaDadosRequest($_GET, array('parametros', 'buscaColecoesUsuario'));
+		$dadosRequisicao = mapeaDadosRequest($_GET, array('parametros', 'buscaColecoesUsuario', 'codCategoria'));
 		
 		$retorno = buscarColecao($dadosRequisicao);
 
@@ -37,7 +37,7 @@ switch($_SERVER['REQUEST_METHOD'])
 	case 'PATCH':
 	{
 		parse_str(file_get_contents('php://input'), $dadosRecebidos);
-		$dadosRequisicao = mapeaDadosRequest($dadosRecebidos, array('titulo', 'descricao', 'codCategoria', 'codColecao'));
+		$dadosRequisicao = mapeaDadosRequest($dadosRecebidos, array('titulo', 'descricao', 'codCategoria', 'codColecao', 'registrarVisualizacao'));
 
 		$retorno = atualizaColecao($dadosRequisicao);
 

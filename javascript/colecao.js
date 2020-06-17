@@ -51,7 +51,7 @@ function cadastrarCategoria(){
 					success: function(data){
 						if(data['resultado']){
 							buscaCategorias();
-							exibeNotificacao('sucesso', 'Categoria cadastrada com sucesso!');
+							exibeNotificacao('sucesso', 'Categoria cadastrada!');
 							cadastraCategoria.modal('hide');
 						}else{
 							exibeNotificacao('erro', data['log']);
@@ -99,36 +99,43 @@ function buscaColecoes(){
 		data: {'parametros': '*', 'buscaColecoesUsuario': true},
 		dataType: 'JSON',
 		success: function(data){
-			$('.swiper-wrapper >').not(':first').remove();
-
-			$.each(data, function(chave, valor){
-				let templateColecao = $('#templateExibicaoColecao').clone();
-				templateColecao.removeClass('none').removeAttr('id');
-				templateColecao.find('.titulo').html(valor['titulo']);
-				templateColecao.find('img').prop('src', valor['imagem']);
-
-				templateColecao.find('.visualizar').click(function(){
-					exibirColecao(valor);
-				});
-
-				templateColecao.find('.editar').click(function(){
-					exibirAtualizacaoColecao('atualizar', valor);
-				});
-
-				templateColecao.find('.excluir').click(function(){
-					excluirColecao(valor['cod_colecao'], templateColecao);
-				});
-
-				$('.swiper-wrapper').append(templateColecao);
-			});
-
-			if(swiper != undefined)
+			if(data['resultado'] && data['log'] == "")
 			{
-				swiper.update();
+				$('.swiper-wrapper >').not(':first').remove();
+
+				$.each(data['dados'], function(chave, valor){
+					let templateColecao = $('#templateExibicaoColecao').clone();
+					templateColecao.removeClass('none').removeAttr('id');
+					templateColecao.find('.titulo').html(valor['titulo']);
+					templateColecao.find('img').prop('src', valor['imagem']);
+
+					templateColecao.find('.visualizar').click(function(){
+						exibirColecao(valor);
+					});
+
+					templateColecao.find('.editar').click(function(){
+						exibirAtualizacaoColecao('atualizar', valor);
+					});
+
+					templateColecao.find('.excluir').click(function(){
+						excluirColecao(valor['cod_colecao'], templateColecao);
+					});
+
+					$('.swiper-wrapper').append(templateColecao);
+				});
+
+				if(swiper != undefined)
+				{
+					swiper.update();
+				}
+				else
+				{
+					swiper = iniciarSwiper();
+				}
 			}
 			else
 			{
-				swiper = iniciarSwiper();
+				exibeNotificacao('erro', data['log']);
 			}
 		}
 	});
@@ -219,7 +226,7 @@ function excluirColecao(codColecao, elemento){
 					success: function(data){
 						if(data)
 						{
-							exibeNotificacao('sucesso', 'Coleção excluida com sucesso.');
+							exibeNotificacao('sucesso', 'Coleção excluida.');
 							$(elemento).remove();
 							swiper.update();
 						}

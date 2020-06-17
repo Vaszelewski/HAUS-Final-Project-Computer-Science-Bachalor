@@ -13,7 +13,7 @@ function cadastrarSuporte(){
 			dataType: 'JSON',
 			success: function(data){
 				if(data['resultado']){
-					exibeNotificacao('sucesso', 'Mensagem enviada com Sucesso! Aguarde nosso retorno em breve.')
+					exibeNotificacao('sucesso', 'Mensagem enviada! Aguarde nosso retorno.')
 				}else{
 					exibeNotificacao('erro', data["log"])
 				}

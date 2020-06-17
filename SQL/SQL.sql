@@ -44,7 +44,8 @@ VALUES
 CREATE TABLE IF NOT EXISTS
 	haus.categoria(
 		cod_categoria INT PRIMARY KEY AUTO_INCREMENT,
-		nome VARCHAR(100) NOT NULL
+		nome VARCHAR(100) NOT NULL,
+		qtd_visualizacao int(11) NOT NULL DEFAULT 0
 	);
 
 CREATE TABLE IF NOT EXISTS
@@ -53,6 +54,7 @@ CREATE TABLE IF NOT EXISTS
 		titulo VARCHAR(100) NOT NULL,
 		descricao VARCHAR(255) NULL,
 		cod_categoria INT NOT NULL,
+		qtd_visualizacao INT(11) NOT NULL DEFAULT 0,
 		tipo_mime VARCHAR(50) NULL DEFAULT NULL,
 		imagem LONGBLOB NULL DEFAULT NULL,
 
@@ -83,22 +85,7 @@ CREATE TABLE IF NOT EXISTS
 	);
 
 DROP USER public_haus;
+CREATE USER public_haus;
 
-GRANT SELECT
-ON
-	haus.*
-TO
-	public_haus IDENTIFIED BY 'Teste1234567890';
-
-GRANT SELECT, INSERT, UPDATE
-ON 
-	haus.usuario
-TO
-	public_haus;
-
-CREATE TABLE IF NOT EXISTS
-	haus.altera_senha(
-  		email varchar(50) NOT NULL,
-  		chave varchar(250) NOT NULL,
-  		data_expiracao datetime NOT NULL
-)
+GRANT SELECT, INSERT, UPDATE, DELETE ON haus.* TO 'public_haus'@'%'
+IDENTIFIED BY 'Teste1234567890';

@@ -150,7 +150,7 @@ function excluirItem(codItem, codColecao){
 					success: function(data){
 						if(data)
 						{
-							exibeNotificacao('sucesso', 'Item excluida com sucesso.');
+							exibeNotificacao('sucesso', 'Item excluido.');
 							carregarItensColecao(codColecao);
 						}
 						else
