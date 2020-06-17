@@ -13,7 +13,7 @@ function cadastrarUsuario(){
 			data: dadosCadastro,
 			success: function(data){
 				if(data != '0'){
-					exibeNotificacao('sucesso', 'Usuário cadastrado com sucesso!')
+					exibeNotificacao('sucesso', 'Usuário cadastrado!')
 				}else{
 					exibeNotificacao('erro', 'E-mail já cadastrado.')
 				}

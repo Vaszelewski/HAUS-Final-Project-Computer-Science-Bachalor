@@ -51,7 +51,7 @@ function cadastrarCategoria(){
 					success: function(data){
 						if(data['resultado']){
 							buscaCategorias();
-							exibeNotificacao('sucesso', 'Categoria cadastrada com sucesso!');
+							exibeNotificacao('sucesso', 'Categoria cadastrada!');
 							cadastraCategoria.modal('hide');
 						}else{
 							exibeNotificacao('erro', data['log']);
@@ -226,7 +226,7 @@ function excluirColecao(codColecao, elemento){
 					success: function(data){
 						if(data)
 						{
-							exibeNotificacao('sucesso', 'Coleção excluida com sucesso.');
+							exibeNotificacao('sucesso', 'Coleção excluida.');
 							$(elemento).remove();
 							swiper.update();
 						}

@@ -25,7 +25,7 @@ function resetarSenha(dadoReset){
 			dataType: 'JSON',
 			success: function(data){
 				if(data == '1'){
-					exibeNotificacao('sucesso', 'Senha alterada com sucesso!')
+					exibeNotificacao('sucesso', 'Senha alterada!')
 				}else{
 					exibeNotificacao('erro', 'Este link é inválido ou expirou')
 				}
